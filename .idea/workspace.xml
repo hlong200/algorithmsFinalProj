@@ -11,7 +11,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5aca1c07-f6c7-470b-9be6-1435f266a90c" name="Default Changelist" comment="" />
+    <list default="true" id="5aca1c07-f6c7-470b-9be6-1435f266a90c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,11 +36,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="353">
-              <caret line="263" column="31" lean-forward="true" selection-start-line="263" selection-start-column="31" selection-end-line="263" selection-end-column="31" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-66">
+              <caret line="9" column="17" lean-forward="true" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -72,6 +71,9 @@
       </file>
     </leaf>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
@@ -83,12 +85,13 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="1507" />
     <option name="y" value="-27" />
     <option name="width" value="1941" />
     <option name="height" value="1062" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -143,12 +146,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1555110230718</updated>
-      <workItem from="1555110232174" duration="12403000" />
+      <workItem from="1555110232174" duration="12839000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12403000" />
+    <option name="totallyTimeSpent" value="12839000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="2575" height="1415" extended-state="6" />
@@ -184,12 +187,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/main.cpp</url>
-          <line>187</line>
+          <line>193</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/main.cpp</url>
-          <line>174</line>
+          <line>180</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
@@ -233,11 +236,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="353">
-          <caret line="263" column="31" lean-forward="true" selection-start-line="263" selection-start-column="31" selection-end-line="263" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-66">
+          <caret line="9" column="17" lean-forward="true" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
         </state>
       </provider>
     </entry>

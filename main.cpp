@@ -1,3 +1,9 @@
+/*
+ * Author: Hunter Long
+ * Course: CSI 3344
+ * Assignment: Group Project - Spring 2019
+ */
+
 #include <iostream>
 
 #include "SDL_Plotter.h"
