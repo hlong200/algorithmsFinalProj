@@ -59,6 +59,10 @@ struct Point {
     }
 };
 
+ostream& operator<<(ostream& out, const Point& point) {
+    out << "(" << point.x << ", " << point.y << ")";
+}
+
 struct Line {
     Point p1, p2;
     Color color;
@@ -239,14 +243,14 @@ vector<Point> convexHullBrute(const vector<Point>& points, SDL_Plotter& g) {
 
 enum Pattern { RANDOM };
 
-void genPoints(vector<Point>& points, int width, int height, Pattern mode = RANDOM, int sampleSize = 1000) {
+void genPoints(vector<Point>& points, const Point& p1, const Point& p2, Pattern mode = RANDOM, int sampleSize = 1000) {
     points.clear();
     switch(mode) {
         case RANDOM:
             random_device rd;
             mt19937_64 mt(rd());
-            uniform_int_distribution<int> distX(0, width);
-            uniform_int_distribution<int> distY(0, height);
+            uniform_int_distribution<int> distX(min(p1.x, p2.x), max(p1.x, p2.x));
+            uniform_int_distribution<int> distY(min(p1.y, p2.y), max(p1.y, p2.y));
 
             for(int i = 0; i < sampleSize; i++) {
                 points.push_back(Point(distX(mt), distY(mt)));
@@ -345,8 +349,25 @@ int main(int argc, char ** argv)
                             cout << "Input: " << input << endl;
                         }
                     }
+
+                    cout << "Select endpoints..." << endl;
+                    int count = 0;
+                    Point p1, p2;
+                    while(count < 2) {
+                        if(g.getMouseClick(x, y)) {
+                            if(count == 0) {
+                                p1 = Point(x, y);
+                                cout << p1 << " --> ";
+                            } else {
+                                p2 = Point(x, y);
+                                cout << p2 << endl;
+                            }
+                            count++;
+                        }
+                    }
+
                     cout << "Generating random points..." << endl;
-                    genPoints(points, g.getCol(), g.getRow(), RANDOM, atoi(input.c_str()));
+                    genPoints(points, p1, p2, RANDOM, atoi(input.c_str()));
                     drawPoints(points, g);
                     break;
                 }
