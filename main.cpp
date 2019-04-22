@@ -12,6 +12,8 @@
 #include <queue>
 #include <algorithm>
 #include <limits>
+#include <ctime>
+#include <random>
 
 using namespace std;
 
@@ -30,6 +32,8 @@ const Color RED(255, 0, 0);
 const Color GREEN(0, 255, 0);
 const Color BLUE(0, 0, 255);
 
+struct Circle;
+
 struct Point {
     int x, y;
     Color color;
@@ -47,6 +51,7 @@ struct Point {
             g.plotPixel(x, y, color.r, color.g, color.b);
         }
     }
+    void drawBig(SDL_Plotter& g);
     void erase(SDL_Plotter& g) {
         if(x >= 0 && x < g.getCol() && y >= 0 && y < g.getRow()) {
             g.plotPixel(x, y, 255, 255, 255);
@@ -144,11 +149,10 @@ struct Rectangle {
     Point p1, p2;
     Color color;
     Rectangle() { }
-    Rectangle(const Point& p1, const Point& p2, const Color& color = BLACK) {
-        this->p1 = p1;
-        this->p2 = p2;
-        this->color = color;
-    }
+    Rectangle(const Point& p1, const Point& p2, const Color& color = Color()) : p1(p1), p2(p2), color(color) { }
+    Rectangle(int x1, int y1, int x2, int y2, const Color& color = Color()) :
+        Rectangle(Point(x1, y1), Point(x2, y2), color){ }
+
     void draw(SDL_Plotter& g) {
         for(int x = p1.x; x <= p2.x; x++) {
             for(int y = p1.y; y <= p2.y; y++) {
@@ -165,40 +169,26 @@ struct Rectangle {
     }
 };
 
-struct DistComp {
-    bool operator() (const pair<Point, Point>& p1, const pair<Point, Point>& p2) {
-        return p1.first.dist(p1.second) > p2.first.dist(p2.second);
-    }
-};
-
-pair<Point, Point> closestPairBrute(const vector<Point>& points, SDL_Plotter& g) {
-    pair<Point, Point> min = make_pair(Point(numeric_limits<int>::max(), numeric_limits<int>::max()), Point());
-    Rectangle r;
-    int count = 0;
-    for(int i = 0; i < points.size(); i++) {
-        for(int j = i + 1; j < points.size(); j++) {
-            count++;
-            Line l;
-            r.erase(g);
-            r = Rectangle(Point(0, 0), Point(int(g.getCol() * 1.0 / (points.size() * points.size() - count)), 10), BLUE);
-            r.draw(g);
-            l.erase(g);
-            if(i != j) {
-                if(min.first.dist(min.second) > points.at(i).dist(points.at(j))) {
-                    min = make_pair(points.at(i), points.at(j));
+struct Circle {
+    Point p;
+    int r;
+    Color color;
+    Circle(Point p, int r = 0, Color color = Color()) : p(p), r(r), color(color) {}
+    void draw(SDL_Plotter& g) {
+        for(int x = -r; x < r; x++) {
+            for(int y = -r; y < r; y++) {
+                Point end(p.x + x, p.y + y, color);
+                if(p.dist(end) <= r) {
+                    end.draw(g);
                 }
-                g.update();
-                l.p1.draw(g);
-                l.p2.draw(g);
-                l = Line(min.first, min.second, RED);
-                l.draw(g);
-                g.update();
-                //g.Sleep(10);
             }
         }
     }
-    cout << "DONE!" << endl;
-    return min;
+};
+
+void Point::drawBig(SDL_Plotter &g) {
+    Circle c(Point(x, y), 3, color);
+    c.draw(g);
 }
 
 bool convexTest(Point p1, Point p2, Point p3) {
@@ -219,15 +209,18 @@ vector<Point> convexHullBrute(const vector<Point>& points, SDL_Plotter& g) {
         Line l;
         do {
             result.push_back(points.at(x));
+            if(result.size() > 1) {
+                Line l(result.at(result.size() - 1), result.at(result.size() - 2), RED);
+                l.draw(g);
+                g.update();
+                g.Sleep(100);
+            }
 
             y = (x + 1) % points.size();
 
             for(int i = 0; i < points.size(); i++) {
                 if(convexTest(points.at(x), points.at(i), points.at(y))) {
                     y = i;
-                    l = Line(points.at(x), points.at(y), GREEN);
-                    l.draw(g);
-                    g.update();
                 }
             }
 
@@ -235,60 +228,154 @@ vector<Point> convexHullBrute(const vector<Point>& points, SDL_Plotter& g) {
         } while(x != index);
     }
 
-    for(int i = 0; i < result.size(); i++) {
-        Line l(result.at(i), result.at((i + 1) % result.size()), RED);
+    if(result.size() > 1) {
+        Line l(result.at(result.size() - 1), result.at(0), RED);
         l.draw(g);
     }
+
     cout << "DONE!" << endl;
     return result;
+}
+
+enum Pattern { RANDOM };
+
+void genPoints(vector<Point>& points, int width, int height, Pattern mode = RANDOM, int sampleSize = 1000) {
+    points.clear();
+    switch(mode) {
+        case RANDOM:
+            random_device rd;
+            mt19937_64 mt(rd());
+            uniform_int_distribution<int> distX(0, width);
+            uniform_int_distribution<int> distY(0, height);
+
+            for(int i = 0; i < sampleSize; i++) {
+                points.push_back(Point(distX(mt), distY(mt)));
+            }
+            break;
+    }
+}
+
+void drawPoints(const vector<Point>& points, SDL_Plotter& g) {
+    g.clear();
+    for(Point p: points) {
+        p.drawBig(g);
+    }
+    g.update();
 }
 
 int main(int argc, char ** argv)
 {
 
-    SDL_Plotter g(1000,1000);
+    SDL_Plotter g(1080,1920);
     bool stopped = false;
     bool colored = false;
-    int x = -1,y = -1, xd, yd;
+    int x = 0,y = 0, curX = 0, curY = 0;
     Color color;
     Point p;
 
     vector<Point> points;
+    Pattern m;
+    int sampleSize = 1000;
+    string input;
+
+    bool drawing = false;
 
     while (!g.getQuit()) {
 
-        if(g.kbhit()){
+        if(g.kbhit()) {
+            /*if(g.getKey() == 'C') {
+                points.clear();
+                g.clear();
+                g.update();
+            }
+            else {
+                genPoints(points, g.getCol(), g.getRow());
+                g.clear();
+                for (Point p : points) { p.draw(g); }
+                g.update();
+            }*/
+
+            // Visualizations
             switch(g.getKey()) {
-                case 'C':
+                case 'R': {
+                    cout << "Clearing screen..." << endl;
+                    points.clear();
                     g.clear();
+                    g.update();
+                    break;
+                }
+
+                case '1': {
                     cout << "Starting brute force convex hull..." << endl;
-                    points.clear();
-                    for(int i = 0; i < 1000; i++) {
-                        points.push_back(Point(rand() % g.getCol(), rand() % g.getRow()));
-                        points.at(i).draw(g);
-                    }
-                    g.update();
+                    drawPoints(points, g);
                     convexHullBrute(points, g);
-                    break;
-                case 'P':
-                    g.clear();
-                    cout << "Starting brute force closest pair..." << endl;
-                    points.clear();
-                    for(int i = 0; i < 1000; i++) {
-                        points.push_back(Point(rand() % g.getCol(), rand() % g.getRow()));
-                        points.at(i).draw(g);
-                    }
                     g.update();
-                    closestPairBrute(points, g);
                     break;
+                }
+
+                case '2': {
+                    cout << "Starting brute force closest pair..." << endl;
+                    // TODO: Call brute force closest pair
+                    break;
+                }
+
+                case '3': {
+                    cout << "Starting divide and conquer convex hull..." << endl;
+                    // TODO: Call divide and conquer convex hull
+                    break;
+                }
+
+                case '4': {
+                    cout << "Starting divide and conquer closest pair..." << endl;
+                    // TODO: Call divide and conquer closest pair
+                    break;
+                }
+
+                case 'G': {
+                    cout << "Enter sample size followed by the down arrow" << endl;
+                    input = string();
+                    while (g.getKey() != DOWN_ARROW) {
+                        if (g.kbhit()) {
+                            if (g.getKey() == LEFT_ARROW) {
+                                input.pop_back();
+                            } else {
+                                input.push_back(g.getKey());
+                            }
+
+                            cout << "Input: " << input << endl;
+                        }
+                    }
+                    cout << "Generating random points..." << endl;
+                    genPoints(points, g.getCol(), g.getRow(), RANDOM, atoi(input.c_str()));
+                    drawPoints(points, g);
+                    break;
+                }
+
+                case ' ': {
+                    g.getMouseLocation(curX, curY);
+                    Rectangle r(x, y, curX, curY, GREEN);
+                    g.clear();
+                    r.draw(g);
+                    g.update();
+                    break;
+                }
+
+                default: {
+                    x = curX;
+                    y = curY;
+                    //cout << "X: " << x << " Y: " << y << endl;
+                    break;
+                }
             }
 
         }
 
-        if(g.getMouseClick(x,y)){
-            stopped = !stopped;
+        if(g.getMouseClick(x, y)) {
+            points.push_back(Point(x, y));
+            points.back().drawBig(g);
+            g.update();
         }
 
-        g.update();
+        //g.update();
     }
 }
