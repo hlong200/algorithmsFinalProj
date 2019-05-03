@@ -57,7 +57,15 @@ struct Point {
             g.plotPixel(x, y, 255, 255, 255);
         }
     }
+
+    friend bool operator< (const Point& p1, const Point& p2);
 };
+
+
+bool operator< (const Point& p1, const Point& p2) {
+    return p1.x < p2.x;
+}
+
 
 ostream& operator<<(ostream& out, const Point& point) {
     out << "(" << point.x << ", " << point.y << ")";
@@ -241,6 +249,11 @@ vector<Point> convexHullBrute(const vector<Point>& points, SDL_Plotter& g) {
     return result;
 }
 
+void closestPairDC(vector<Point> points, SDL_Plotter& g) {
+    sort(points.begin(),points.end());
+
+}
+
 enum Pattern { RANDOM };
 
 void genPoints(vector<Point>& points, const Point& p1, const Point& p2, Pattern mode = RANDOM, int sampleSize = 1000) {
@@ -331,7 +344,9 @@ int main(int argc, char ** argv)
 
                 case '4': {
                     cout << "Starting divide and conquer closest pair..." << endl;
-                    // TODO: Call divide and conquer closest pair
+                    drawPoints(points,g);
+                    closestPairDC(points,g);
+                    g.update();
                     break;
                 }
 
