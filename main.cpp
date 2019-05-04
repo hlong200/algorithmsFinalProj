@@ -61,6 +61,12 @@ struct Point {
             g.plotPixel(x, y, 255, 255, 255);
         }
     }
+    bool operator==(const Point& other) {
+        return (this == &other) || (x == other.x && y == other.y);
+    }
+    bool operator!=(const Point& other) {
+        return (this != &other) || (x != other.x || y != other.y);
+    }
 };
 
 ostream& operator<<(ostream& out, const Point& point) {
@@ -246,6 +252,48 @@ vector<Point> convexHullBrute(const vector<Point>& points, SDL_Plotter& g) {
     return result;
 }
 
+void drawPoints(const vector<Point>& points, SDL_Plotter& g) {
+    g.clear();
+    for(Point p: points) {
+        p.drawBig(g);
+    }
+    g.update();
+}
+
+pair<Point, Point> closestPairBrute(const vector<Point>& points, SDL_Plotter& g) {
+    if(points.size() > 2) {
+        double minDist = numeric_limits<double>::max();
+        pair<Point, Point> closest;
+
+        for (int i = 0; i < points.size(); i++) {
+            for (int j = 0; j < points.size() && i != j; j++) {
+                Line l;
+                pair<Point, Point> cur = make_pair(points.at(i), points.at(j));
+                l = Line(cur.first, cur.second, INDIGO);
+                if (cur.first.dist(cur.second) < minDist) {
+                    closest = cur;
+                    minDist = cur.first.dist(cur.second);
+                    cout << "Closer one found!" << endl;
+                    l.color = RED;
+                }
+                l.draw(g);
+                g.update();
+            }
+            g.clear();
+            drawPoints(points, g);
+        }
+
+        g.update();
+
+        Line l(closest.first, closest.second, RED);
+        l.draw(g);
+
+        return closest;
+    } else {
+        return make_pair(points.at(0), points.at(1));
+    }
+}
+
 pair<vector<Point>,double> closestPairRecursive(const vector <Point>& pX, const vector<Point>& pY, SDL_Plotter& g, int depth) {
     int n = pX.size();
     if(n <= 3) {
@@ -391,13 +439,7 @@ void genPoints(vector<Point>& points, const Point& p1, const Point& p2, Pattern 
     }
 }
 
-void drawPoints(const vector<Point>& points, SDL_Plotter& g) {
-    g.clear();
-    for(Point p: points) {
-        p.drawBig(g);
-    }
-    g.update();
-}
+
 
 int main(int argc, char ** argv)
 {
@@ -451,7 +493,10 @@ int main(int argc, char ** argv)
 
                 case '2': {
                     cout << "Starting brute force closest pair..." << endl;
-                    // TODO: Call brute force closest pair
+                    drawPoints(points, g);
+                    pair<Point, Point> closest = closestPairBrute(points, g);
+                    g.update();
+                    cout << "Closest pair: " << closest.first << " --> " << closest.second << endl;
                     break;
                 }
 
