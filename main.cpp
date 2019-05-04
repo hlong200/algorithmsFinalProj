@@ -29,8 +29,12 @@ struct Color {
 
 const Color BLACK(0, 0, 0);
 const Color RED(255, 0, 0);
+const Color ORANGE(255, 127, 0);
+const Color YELLOW(255, 255, 0);
 const Color GREEN(0, 255, 0);
 const Color BLUE(0, 0, 255);
+const Color INDIGO(75, 0, 130);
+const Color VIOLET(148, 0, 211);
 
 struct Circle;
 
@@ -57,18 +61,11 @@ struct Point {
             g.plotPixel(x, y, 255, 255, 255);
         }
     }
-
-    friend bool operator< (const Point& p1, const Point& p2);
 };
-
-
-bool operator< (const Point& p1, const Point& p2) {
-    return p1.x < p2.x;
-}
-
 
 ostream& operator<<(ostream& out, const Point& point) {
     out << "(" << point.x << ", " << point.y << ")";
+    return out;
 }
 
 struct Line {
@@ -249,9 +246,131 @@ vector<Point> convexHullBrute(const vector<Point>& points, SDL_Plotter& g) {
     return result;
 }
 
-void closestPairDC(vector<Point> points, SDL_Plotter& g) {
-    sort(points.begin(),points.end());
+pair<vector<Point>,double> closestPairRecursive(const vector <Point>& pX, const vector<Point>& pY, SDL_Plotter& g, int depth) {
+    int n = pX.size();
+    if(n <= 3) {
 
+        double minDist;
+        vector<Point> minPoints;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = i + 1; j < n; j++) {
+                double dist = pX[i].dist(pX[j]);
+                if (minPoints.size() == 0 || dist < minDist) {
+                    minPoints.clear();
+                    minPoints.push_back(pX[i]);
+                    minPoints.push_back(pX[j]);
+                    minDist = dist;
+                }
+            }
+        }
+
+        return make_pair(minPoints, minDist);
+    } else {
+        int midIndex = n / 2;
+        auto itr = pX.begin();
+        vector<Point> lX(itr,itr + midIndex);
+        vector<Point> rX(itr + midIndex,itr + n);
+
+        double midX = abs(static_cast<double>(lX[lX.size() - 1].x + rX[0].x)) / 2;
+
+        Line l(Point((int) midX, 0), Point((int) midX, 1920), RED);
+        switch(depth % 7) {
+            case 0:
+                l.color = RED;
+                break;
+            case 1:
+                l.color = ORANGE;
+                break;
+            case 2:
+                l.color = YELLOW;
+                break;
+            case 3:
+                l.color = GREEN;
+                break;
+            case 4:
+                l.color = BLUE;
+                break;
+            case 5:
+                l.color = INDIGO;
+                break;
+            default:
+                l.color = VIOLET;
+                break;
+        }
+
+        l.draw(g);
+        g.update();
+
+        vector<Point> lY = lX;
+        sort(lY.begin(),lY.end(),[](const Point& p1, const Point& p2) {
+           return p1.y < p2.y;
+        });
+        vector<Point> rY = rX;
+        sort(rY.begin(),rY.end(),[](const Point& p1, const Point& p2) {
+           return p1.y < p2.y;
+        });
+
+        pair<vector<Point>,double> lRes = closestPairRecursive(lX,lY,g,depth+1);
+        pair<vector<Point>,double> rRes = closestPairRecursive(rX,rY,g,depth+1);
+
+        pair<vector<Point>,double>& minRes = ((lRes.second < rRes.second) ? lRes : rRes);
+
+        vector<Point> withinBoundary;
+        for(int i = 0; i < pY.size(); i++) {
+            if(abs(midX - pY[i].x) < minRes.second) {
+                withinBoundary.push_back(pY[i]);
+            }
+        }
+
+        int pointsInBounds = withinBoundary.size();
+        if(pointsInBounds <= 1) {
+            return minRes;
+        } else {
+            Point* p = &(withinBoundary[0]);
+            Point* q = &(withinBoundary[1]);
+            double pqDist = p->dist(*q);
+            for(int i = 0; i < pointsInBounds; i++) {
+                for(int j = 1; j <= 7 && (i+j) < pointsInBounds; j++) {
+                    if(withinBoundary[i].dist(withinBoundary[i+j]) < pqDist) {
+                        p = &(withinBoundary[i]);
+                        q = &(withinBoundary[i+j]);
+                        pqDist = p->dist(*q);
+                    }
+                }
+            }
+
+            if(pqDist < minRes.second) {
+                vector<Point> resultVector = {*p,*q};
+                return make_pair(resultVector,pqDist);
+            } else {
+                return minRes;
+            }
+        }
+    }
+}
+
+void closestPairDC(const vector<Point>& points, SDL_Plotter& g) {
+    vector<Point> xSorted(points);
+    vector<Point> ySorted(points);
+
+    sort(xSorted.begin(),xSorted.end(),[](const Point& p1, const Point& p2) {
+        return p1.x < p2.x;
+    });
+
+    sort(ySorted.begin(),ySorted.end(),[](const Point& p1, const Point& p2) {
+        return p1.y < p2.y;
+    });
+
+
+
+    pair<vector<Point>,double> closestP = closestPairRecursive(xSorted,ySorted,g,0);
+    cout << "CLOSEST PAIR FINAL RESULT: ";
+    for(int i = 0; i < closestP.first.size(); i++) {
+        closestP.first[i].color = RED;
+        closestP.first[i].drawBig(g);
+        cout << closestP.first[i] << ' ';
+    }
+    cout << endl;
 }
 
 enum Pattern { RANDOM };
@@ -407,11 +526,21 @@ int main(int argc, char ** argv)
         }
 
         if(g.getMouseClick(x, y)) {
-            points.push_back(Point(x, y));
-            points.back().drawBig(g);
-            g.update();
+            bool found = false;
+            for(int i = 0; i < points.size() && !found; i++) {
+                if (points[i].x == x && points[i].y == y) {
+                    found = true;
+                }
+            }
+            if(!found) {
+                points.push_back(Point(x, y));
+                points.back().drawBig(g);
+                g.update();
+            }
         }
 
         //g.update();
     }
+
+    return 0;
 }
