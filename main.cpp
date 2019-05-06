@@ -14,12 +14,11 @@
 #include <limits>
 #include <ctime>
 #include <random>
-#include <thread>
-#include <mutex>
+#include <chrono>
 
 using namespace std;
 
-mutex mx;
+SDL_Plotter g(1080, 1920);
 
 struct Color {
     int r, g, b;
@@ -48,9 +47,9 @@ struct Point {
     Point() { x = y = 0; }
     Point(int x, int y, const Color& color = BLACK);
     double dist(const Point& other) const;
-    void draw(SDL_Plotter& g);
-    void drawBig(SDL_Plotter& g);
-    void erase(SDL_Plotter& g);
+    void draw();
+    void drawBig();
+    void erase();
     bool operator==(const Point& other);
     bool operator!=(const Point& other);
 };
@@ -65,8 +64,8 @@ struct Line {
     Line(const Point& p1, const Point& p2, const Color& color = BLACK) :
          Line(p1.x, p1.y, p2.x, p2.y, color) { };
 
-    void draw(SDL_Plotter& g);
-    void erase(SDL_Plotter& g);
+    void draw();
+    void erase();
 };
 
 struct Rectangle {
@@ -77,8 +76,8 @@ struct Rectangle {
     Rectangle(int x1, int y1, int x2, int y2, const Color& color = Color()) :
         Rectangle(Point(x1, y1), Point(x2, y2), color){ }
 
-    void draw(SDL_Plotter& g);
-    void erase(SDL_Plotter& g);
+    void draw();
+    void erase();
 };
 
 struct Circle {
@@ -86,31 +85,34 @@ struct Circle {
     int r;
     Color color;
     Circle(Point p, int r = 0, Color color = Color()) : p(p), r(r), color(color) {}
-    void draw(SDL_Plotter& g);
+    void draw();
 };
 
 
 
 bool convexTest(Point p1, Point p2, Point p3);
 
-vector<Point> convexHullBrute(const vector<Point>& points, SDL_Plotter& g, bool visualize = true);
+long long convexHullBrute(const vector<Point>& points, bool visualize = true);
 
-void drawPoints(const vector<Point>& points, SDL_Plotter& g);
+void drawPoints(const vector<Point>& points);
 
-pair<Point, Point> closestPairBrute(const vector<Point>& points, SDL_Plotter& g, bool visualize = true);
+long long closestPairBrute(const vector<Point>& points, bool visualize = true);
 
-pair<vector<Point>,double> closestPairRecursive(const vector <Point>& pX, const vector<Point>& pY, SDL_Plotter& g, int depth, bool visualize = true);
+pair<vector<Point>,double> closestPairRecursive(const vector <Point>& pX, const vector<Point>& pY, int depth, bool visualize = true);
 
-pair<vector<Point>,double> closestPairDC(const vector<Point>& points, SDL_Plotter& g, bool visualize = true);
+long long closestPairDC(const vector<Point>& points, bool visualize = true);
 
 void genPoints(vector<Point>& points, const Point& p1, const Point& p2, int sampleSize = 1000);
 
-void compareAlgorithms(vector<Point>& points, SDL_Plotter& g);
+void compareAlgorithms(vector<Point>& points);
+
+vector<long long> analyze(const Point& p1, const Point& p2, long long (*fun)(const vector<Point>& points, bool graphics), int testSize = 100);
+
+void drawHeuristics(const vector<long long>& heuristics);
 
 int main(int argc, char ** argv)
 {
 
-    SDL_Plotter g(1080,1920);
     bool stopped = false;
     bool colored = false;
     int x = 0,y = 0, curX = 0, curY = 0;
@@ -118,7 +120,7 @@ int main(int argc, char ** argv)
     Point p;
 
     vector<Point> points;
-    int sampleSize = 1000;
+    int sampleSize = 50;
     string input;
 
     bool drawing = false;
@@ -149,19 +151,16 @@ int main(int argc, char ** argv)
                 }
 
                 case '1': {
-                    cout << "Starting brute force convex hull..." << endl;
-                    drawPoints(points, g);
-                    convexHullBrute(points, g);
+                    vector<long long> a = analyze(Point(), Point(1920, 1080), convexHullBrute, sampleSize);
+                    drawHeuristics(a);
                     g.update();
                     break;
                 }
 
                 case '2': {
-                    cout << "Starting brute force closest pair..." << endl;
-                    drawPoints(points, g);
-                    pair<Point, Point> closest = closestPairBrute(points, g);
+                    vector<long long> a = analyze(Point(), Point(1920, 1080), closestPairBrute, sampleSize);
+                    drawHeuristics(a);
                     g.update();
-                    cout << "Closest pair: " << closest.first << " --> " << closest.second << endl;
                     break;
                 }
 
@@ -172,9 +171,8 @@ int main(int argc, char ** argv)
                 }
 
                 case '4': {
-                    cout << "Starting divide and conquer closest pair..." << endl;
-                    drawPoints(points,g);
-                    closestPairDC(points,g);
+                    vector<long long> a = analyze(Point(), Point(1920, 1080), closestPairDC, sampleSize);
+                    drawHeuristics(a);
                     g.update();
                     break;
                 }
@@ -212,7 +210,7 @@ int main(int argc, char ** argv)
 
                     cout << "Generating random points..." << endl;
                     genPoints(points, p1, p2, atoi(input.c_str()));
-                    drawPoints(points, g);
+                    drawPoints(points);
                     break;
                 }
 
@@ -220,15 +218,9 @@ int main(int argc, char ** argv)
                     g.getMouseLocation(curX, curY);
                     Rectangle r(x, y, curX, curY, GREEN);
                     g.clear();
-                    r.draw(g);
+                    r.draw();
                     g.update();
                     break;
-                }
-
-                case 'X': {
-                    compareAlgorithms(points, g);
-                    drawPoints(points, g);
-                    g.update();
                 }
 
                 default: {
@@ -250,7 +242,7 @@ int main(int argc, char ** argv)
             }
             if(!found) {
                 points.push_back(Point(x, y));
-                points.back().drawBig(g);
+                points.back().drawBig();
                 g.update();
             }
         }
@@ -269,14 +261,12 @@ Point::Point(int x, int y, const Color& color) {
 double Point::dist(const Point& other) const {
     return sqrt(pow(x - other.x, 2.0) + pow(y - other.y, 2.0));
 }
-void Point::draw(SDL_Plotter& g) {
-    mx.lock();
+void Point::draw() {
     if(x >= 0 && x < g.getCol() && y >= 0 && y < g.getRow()) {
         g.plotPixel(x, y, color.r, color.g, color.b);
     }
-    mx.unlock();
 }
-void Point::erase(SDL_Plotter& g) {
+void Point::erase() {
     if(x >= 0 && x < g.getCol() && y >= 0 && y < g.getRow()) {
         g.plotPixel(x, y, 255, 255, 255);
     }
@@ -287,9 +277,9 @@ bool Point::operator==(const Point& other) {
 bool Point::operator!=(const Point& other) {
     return (this != &other) || (x != other.x || y != other.y);
 }
-void Point::drawBig(SDL_Plotter &g) {
+void Point::drawBig() {
     Circle c(Point(x, y), 3, color);
-    c.draw(g);
+    c.draw();
 }
 
 ostream& operator<<(ostream& out, const Point& point) {
@@ -305,7 +295,7 @@ Line::Line(int x1, int y1, int x2, int y2, const Color& color) {
     this->color = color;
 }
 
-void Line::draw(SDL_Plotter& g) {
+void Line::draw() {
     int dx, dy, dx1, dy1, px, py, xe, ye, i;
     dx = p2.x - p1.x;
     dy = p2.y - p1.y;
@@ -327,7 +317,7 @@ void Line::draw(SDL_Plotter& g) {
             p.y = p2.y;
             xe = p1.x;
         }
-        p.draw(g);
+        p.draw();
         for(i = 0; p.x < xe; i++) {
             p.x = p.x + 1;
             if(px < 0) {
@@ -340,7 +330,7 @@ void Line::draw(SDL_Plotter& g) {
                 }
                 px += 2 * (dy1 - dx1);
             }
-            p.draw(g);
+            p.draw();
         }
     } else {
         if(dy >= 0) {
@@ -352,7 +342,7 @@ void Line::draw(SDL_Plotter& g) {
             p.y = p2.y;
             ye = p1.y;
         }
-        p.draw(g);
+        p.draw();
         for(i = 0; p.y < ye; i++) {
             p.y = p.y + 1;
             if(py <= 0) {
@@ -365,38 +355,38 @@ void Line::draw(SDL_Plotter& g) {
                 }
                 py += 2 * (dx1 - dy1);
             }
-            p.draw(g);
+            p.draw();
         }
     }
 }
-void Line::erase(SDL_Plotter& g) {
+void Line::erase() {
     Color old = color;
     color = Color(255, 255, 255);
-    draw(g);
+    draw();
     color = old;
 }
 
-void Rectangle::draw(SDL_Plotter& g) {
+void Rectangle::draw() {
     for(int x = p1.x; x <= p2.x; x++) {
         for(int y = p1.y; y <= p2.y; y++) {
             Point p(x, y, color);
-            p.draw(g);
+            p.draw();
         }
     }
 }
-void Rectangle::erase(SDL_Plotter& g) {
+void Rectangle::erase() {
     Color old = color;
     color = Color(255, 255, 255);
-    draw(g);
+    draw();
     color = old;
 }
 
-void Circle::draw(SDL_Plotter& g) {
+void Circle::draw() {
     for(int x = -r; x < r; x++) {
         for(int y = -r; y < r; y++) {
             Point end(p.x + x, p.y + y, color);
             if(p.dist(end) <= r) {
-                end.draw(g);
+                end.draw();
             }
         }
     }
@@ -406,15 +396,16 @@ bool convexTest(Point p1, Point p2, Point p3) {
     return (p2.y - p1.y) * (p3.x - p2.x) - (p2.x - p1.x) * (p3.y - p2.y) > 2;
 }
 
-void drawPoints(const vector<Point>& points, SDL_Plotter& g) {
+void drawPoints(const vector<Point>& points) {
     g.clear();
     for(Point p: points) {
-        p.drawBig(g);
+        p.drawBig();
     }
     g.update();
 }
 
-vector<Point> convexHullBrute(const vector<Point>& points, SDL_Plotter& g, bool visualize) {
+long long convexHullBrute(const vector<Point>& points, bool visualize) {
+    chrono::time_point<chrono::system_clock> start = chrono::system_clock::now();
     vector<Point> result;
     if(points.size() >= 3) {
         int index = 0;
@@ -430,7 +421,7 @@ vector<Point> convexHullBrute(const vector<Point>& points, SDL_Plotter& g, bool 
             result.push_back(points.at(x));
             if(result.size() > 1 && visualize) {
                 Line l(result.at(result.size() - 1), result.at(result.size() - 2), RED);
-                l.draw(g);
+                l.draw();
                 g.update();
                 g.Sleep(100);
             }
@@ -449,14 +440,16 @@ vector<Point> convexHullBrute(const vector<Point>& points, SDL_Plotter& g, bool 
 
     if(result.size() > 1 && visualize) {
         Line l(result.at(result.size() - 1), result.at(0), RED);
-        l.draw(g);
+        l.draw();
     }
 
+    chrono::time_point<chrono::system_clock> stop = chrono::system_clock::now();
+
     //cout << "DONE!" << endl;
-    return result;
+    return chrono::duration_cast<chrono::nanoseconds>(stop - start).count();
 }
 
-void compareAlgorithms(vector<Point>& points, SDL_Plotter& g){
+void compareAlgorithms(vector<Point>& points){
     points.clear();
     vector<Point> points2;
     Point p1(0, 0);
@@ -478,19 +471,19 @@ void compareAlgorithms(vector<Point>& points, SDL_Plotter& g){
         vector<Point> points5 = points4;
 
         clock_t begin = clock();
-        closestPairBrute(points2, g, false);
+        closestPairBrute(points2, false);
         clock_t end = clock();
         double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
         CPB.push_back(elapsed_secs);
 
         begin = clock();
-        closestPairDC(points3, g, false);
+        closestPairDC(points3, false);
         end = clock();
         elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
         CPDC.push_back(elapsed_secs);
 
         begin = clock();
-        convexHullBrute(points4, g, false);
+        convexHullBrute(points4, false);
         end = clock();
         elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
         CHB.push_back(elapsed_secs);
@@ -569,12 +562,36 @@ void compareAlgorithms(vector<Point>& points, SDL_Plotter& g){
     cout << "Max input size: " << inputCount << endl;
     cout << "Number of points plotted: " << points.size() << endl;
 
-    drawPoints(points, g);
+    drawPoints(points);
     cout << "Updating screen..." << endl;
     g.update();
 }
 
-pair<Point, Point> closestPairBrute(const vector<Point>& points, SDL_Plotter& g, bool visualize) {
+void drawHeuristics(const vector<long long>& heuristics) {
+
+    long long max = -1;
+    for(long long l : heuristics) {
+        if(l > max) {
+            max = l;
+        }
+    }
+
+    double scale = 1080.0 / max;
+
+    for(size_t i = 0; i < heuristics.size(); i++) {
+        int x = (1920.0 / heuristics.size()) * i;
+        int y = scale * heuristics.at(i);
+        y = 1080 - y;
+
+        Point p(x, y);
+        p.drawBig();
+    }
+
+}
+
+long long closestPairBrute(const vector<Point>& points, bool visualize) {
+    chrono::time_point<chrono::system_clock> start = chrono::system_clock::now();
+
     if(points.size() > 2) {
         double minDist = numeric_limits<double>::max();
         pair<Point, Point> closest;
@@ -591,33 +608,32 @@ pair<Point, Point> closestPairBrute(const vector<Point>& points, SDL_Plotter& g,
                     l.color = RED;
                 }
                 if(visualize) {
-                    l.draw(g);
+                    l.draw();
                     g.update();
                 }
             }
             if(visualize) {
                 g.clear();
-                drawPoints(points, g);
+                drawPoints(points);
             }
         }
 
         if(visualize) {
             g.update();
             Line l(closest.first, closest.second, RED);
-            l.draw(g);
+            l.draw();
         }
 
-        return closest;
-    } else if(points.size() == 2) {
-        return make_pair(points.at(0), points.at(1));
-    } else if(points.size() == 1) {
-        return make_pair(points.at(0), Point());
-    } else {
-        return make_pair(Point(), Point());
     }
+
+    chrono::time_point<chrono::system_clock> stop = chrono::system_clock::now();
+
+    g.clear();
+
+    return chrono::duration_cast<chrono::nanoseconds>(stop - start).count();
 }
 
-pair<vector<Point>,double> closestPairRecursive(const vector <Point>& pX, const vector<Point>& pY, SDL_Plotter& g, int depth, bool visualize) {
+pair<vector<Point>,double> closestPairRecursive(const vector <Point>& pX, const vector<Point>& pY, int depth, bool visualize) {
     int n = pX.size();
     if(n <= 3) {
         double minDist;
@@ -668,7 +684,7 @@ pair<vector<Point>,double> closestPairRecursive(const vector <Point>& pX, const 
                     break;
             }
 
-            l.draw(g);
+            l.draw();
             g.update();
         }
 
@@ -681,8 +697,8 @@ pair<vector<Point>,double> closestPairRecursive(const vector <Point>& pX, const 
             return p1.y < p2.y;
         });
 
-        pair<vector<Point>,double> lRes = closestPairRecursive(lX,lY,g,depth+1,visualize);
-        pair<vector<Point>,double> rRes = closestPairRecursive(rX,rY,g,depth+1,visualize);
+        pair<vector<Point>,double> lRes = closestPairRecursive(lX,lY,depth+1,visualize);
+        pair<vector<Point>,double> rRes = closestPairRecursive(rX,rY,depth+1,visualize);
 
         pair<vector<Point>,double>& minRes = ((lRes.second < rRes.second) ? lRes : rRes);
 
@@ -720,7 +736,8 @@ pair<vector<Point>,double> closestPairRecursive(const vector <Point>& pX, const 
     }
 }
 
-pair<vector<Point>,double> closestPairDC(const vector<Point>& points, SDL_Plotter& g, bool visualize) {
+long long closestPairDC(const vector<Point>& points, bool visualize) {
+    chrono::time_point<chrono::system_clock> start = chrono::system_clock::now();
     vector<Point> xSorted(points);
     vector<Point> ySorted(points);
 
@@ -732,18 +749,21 @@ pair<vector<Point>,double> closestPairDC(const vector<Point>& points, SDL_Plotte
         return p1.y < p2.y;
     });
 
-    pair<vector<Point>,double> closestP = closestPairRecursive(xSorted,ySorted,g,0,visualize);
+    pair<vector<Point>,double> closestP = closestPairRecursive(xSorted,ySorted,0,visualize);
+
+    chrono::time_point<chrono::system_clock> stop = chrono::system_clock::now();
+
     if(visualize) {
         cout << "CLOSEST PAIR FINAL RESULT: ";
         for (int i = 0; i < closestP.first.size(); i++) {
             closestP.first[i].color = RED;
-            closestP.first[i].drawBig(g);
+            closestP.first[i].drawBig();
             cout << closestP.first[i] << ' ';
         }
         cout << endl;
     }
 
-    return closestP;
+    return chrono::duration_cast<chrono::nanoseconds>(stop - start).count();
 }
 
 void genPoints(vector<Point>& points, const Point& p1, const Point& p2, int sampleSize) {
@@ -756,4 +776,22 @@ void genPoints(vector<Point>& points, const Point& p1, const Point& p2, int samp
     for(int i = 0; i < sampleSize; i++) {
         points.push_back(Point(distX(mt), distY(mt)));
     }
+}
+
+vector<long long> analyze(const Point& p1, const Point& p2, long long (*fun)(const vector<Point>& points, bool graphics), int testSize) {
+    vector<long long> heuristics;
+
+    for(int i = 1; i <= testSize; i++) {
+        vector<Point> points;
+        genPoints(points, p1, p2, i);
+        g.clear();
+        drawPoints(points);
+
+        heuristics.push_back(fun(points, true));
+    }
+
+    g.Sleep(500);
+    g.clear();
+
+    return heuristics;
 }
