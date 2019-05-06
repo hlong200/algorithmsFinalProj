@@ -1,1 +1,1 @@
- -L"E:/CSI 3344/groupProject/SDL2-2.0.9/i686-w64-mingw32/lib" -lmingw32 -lSDL2main -lSDL2 -lSDL2_mixer -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 
+ -LC:/Users/hunte/DOCUME~1/SCHOOL~1/Algorithms/algorithmsFinalProj/SDL2-2.0.9/i686-w64-mingw32/lib -lmingw32 -lSDL2main -lSDL2 -lSDL2_mixer -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 

@@ -12,7 +12,7 @@
 #include <queue>
 #include <algorithm>
 #include <limits>
-#include <ctime>
+#include <chrono>
 #include <random>
 #include <chrono>
 
@@ -94,7 +94,9 @@ bool convexTest(Point p1, Point p2, Point p3);
 
 long long convexHullBrute(const vector<Point>& points, bool visualize = true);
 
-void drawPoints(const vector<Point>& points);
+vector<Point> convexHullDC(const vector<Point>& points, SDL_Plotter& g, bool visualize = true);
+
+void drawPoints(const vector<Point>& points, SDL_Plotter& g);
 
 long long closestPairBrute(const vector<Point>& points, bool visualize = true);
 
@@ -445,10 +447,87 @@ long long convexHullBrute(const vector<Point>& points, bool visualize) {
 
     chrono::time_point<chrono::system_clock> stop = chrono::system_clock::now();
 
-    //cout << "DONE!" << endl;
     return chrono::duration_cast<chrono::nanoseconds>(stop - start).count();
 }
 
+vector<Point> convexHullDC(const vector<Point>& points, SDL_Plotter& g){
+    if(points.size() <= 5){
+        return convexHullBrute(points, g);
+    } else{
+        //Split in half with a vertical line
+        vector<Point> result;
+        vector<Point> leftVector;
+        vector<Point> rightVector;
+        Point min = points[0];
+        Point max = points[0];
+
+        for(Point p : points){
+            if(p.x < min.x){
+                min = p;
+            } else if(p.x > max.x){
+                max = p;
+            }
+        }
+
+        int split = (min.x + max.x)/2;
+
+        for(Point p : points){
+            if(p.x <= split){
+                leftVector.push_back(p);
+            } else{
+                rightVector.push_back(p);
+            }
+        }
+        leftVector = convexHullDC(leftVector, g);
+        rightVector = convexHullDC(rightVector, g);
+
+        //Look for tangents on the most extreme y-values.
+        min = leftVector[0];
+        max = leftVector[0];
+        Point min2 = rightVector[0];
+        Point max2 = rightVector[0];
+        for(Point p : leftVector){
+            if(p.y < min.y){
+                min = p;
+            } else if(p.y > max.y){
+                max = p;
+            }
+        }
+        for(Point p : rightVector){
+            if(p.y < min2.y){
+                min2 = p;
+            } else if(p.y > max2.y){
+                max2 = p;
+            }
+        }
+
+        for(Point p : leftVector){
+            if(p.x <= min.x && max.x){
+                result.push_back(p);
+            }
+        }
+        for(Point p : rightVector){
+            if(p.x >= min.x && max.x){
+                result.push_back(p);
+            }
+        }
+
+        Line l(min, min2);
+        l.draw(g);
+        g.update();
+        g.Sleep(100);
+
+        l.p1 = max;
+        l.p2 = max2;
+        l.draw(g);
+        g.update();
+        g.Sleep(100);
+
+        return result;
+    }
+}
+
+void compareAlgorithms(vector<Point>& points, SDL_Plotter& g){
 void compareAlgorithms(vector<Point>& points){
     points.clear();
     vector<Point> points2;
@@ -460,7 +539,7 @@ void compareAlgorithms(vector<Point>& points){
     vector<double> CHB;
     vector<double> CHDC;
 
-    int inputCount = 100;
+    int inputCount = 300;
 
     for(int i = 2; i < inputCount + 2; i++){
         cout << "running for input size " << i << endl;
@@ -470,29 +549,29 @@ void compareAlgorithms(vector<Point>& points){
         vector<Point> points4 = points3;
         vector<Point> points5 = points4;
 
-        clock_t begin = clock();
-        closestPairBrute(points2, false);
-        clock_t end = clock();
-        double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-        CPB.push_back(elapsed_secs);
+        auto begin = chrono::system_clock::now();
+        closestPairBrute(points2, g, false);
+        auto end = chrono::system_clock::now();
+        auto elapsed = chrono::duration_cast<chrono::microseconds>(end - begin).count();
+        CPB.push_back(elapsed);
 
-        begin = clock();
-        closestPairDC(points3, false);
-        end = clock();
-        elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-        CPDC.push_back(elapsed_secs);
+        begin = chrono::system_clock::now();
+        closestPairDC(points3, g, false);
+        end = chrono::system_clock::now();
+        elapsed = chrono::duration_cast<chrono::microseconds>(end - begin).count();
+        CPDC.push_back(elapsed);
 
-        begin = clock();
-        convexHullBrute(points4, false);
-        end = clock();
-        elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-        CHB.push_back(elapsed_secs);
+        begin = chrono::system_clock::now();
+        convexHullBrute(points4, g, false);
+        end = chrono::system_clock::now();
+        elapsed = chrono::duration_cast<chrono::microseconds>(end - begin).count();
+        CHB.push_back(elapsed);
 
-        begin = clock();
+        begin = chrono::system_clock::now();
         //Enter DC Convex Hull method here will use points5
-        end = clock();
-        elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-        CHDC.push_back(elapsed_secs);
+        end = chrono::system_clock::now();
+        elapsed = chrono::duration_cast<chrono::microseconds>(end - begin).count();
+        CHDC.push_back(elapsed);
     }
 
     double maxTime = 0.0;

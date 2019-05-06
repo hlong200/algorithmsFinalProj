@@ -1,4 +1,4 @@
-# Install script for directory: E:/CSI 3344/groupProject
+# Install script for directory: C:/Users/hunte/Documents/School work/Algorithms/algorithmsFinalProj
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "E:/CSI 3344/groupProject/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/hunte/Documents/School work/Algorithms/algorithmsFinalProj/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
