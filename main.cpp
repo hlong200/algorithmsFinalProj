@@ -248,7 +248,6 @@ vector<Point> convexHullBrute(const vector<Point>& points, SDL_Plotter& g) {
         l.draw(g);
     }
 
-    cout << "DONE!" << endl;
     return result;
 }
 
@@ -258,6 +257,83 @@ void drawPoints(const vector<Point>& points, SDL_Plotter& g) {
         p.drawBig(g);
     }
     g.update();
+}
+
+vector<Point> convexHullDC(const vector<Point>& points, SDL_Plotter& g){
+    if(points.size() <= 5){
+        return convexHullBrute(points, g);
+    } else{
+        //Split in half with a vertical line
+        vector<Point> result;
+        vector<Point> leftVector;
+        vector<Point> rightVector;
+        Point min = points[0];
+        Point max = points[0];
+
+        for(Point p : points){
+            if(p.x < min.x){
+                min = p;
+            } else if(p.x > max.x){
+                max = p;
+            }
+        }
+
+        int split = (min.x + max.x)/2;
+
+        for(Point p : points){
+            if(p.x <= split){
+                leftVector.push_back(p);
+            } else{
+                rightVector.push_back(p);
+            }
+        }
+        leftVector = convexHullDC(leftVector, g);
+        rightVector = convexHullDC(rightVector, g);
+
+        //Look for tangents on the most extreme y-values.
+        min = leftVector[0];
+        max = leftVector[0];
+        Point min2 = rightVector[0];
+        Point max2 = rightVector[0];
+        for(Point p : leftVector){
+            if(p.y < min.y){
+                min = p;
+            } else if(p.y > max.y){
+                max = p;
+            }
+        }
+        for(Point p : rightVector){
+            if(p.y < min2.y){
+                min2 = p;
+            } else if(p.y > max2.y){
+                max2 = p;
+            }
+        }
+
+        for(Point p : leftVector){
+            if(p.x <= min.x && max.x){
+                result.push_back(p);
+            }
+        }
+        for(Point p : rightVector){
+            if(p.x >= min.x && max.x){
+                result.push_back(p);
+            }
+        }
+
+        Line l(min, min2);
+        l.draw(g);
+        g.update();
+        g.Sleep(100);
+
+        l.p1 = max;
+        l.p2 = max2;
+        l.draw(g);
+        g.update();
+        g.Sleep(100);
+
+        return result;
+    }
 }
 
 pair<Point, Point> closestPairBrute(const vector<Point>& points, SDL_Plotter& g) {
@@ -487,6 +563,7 @@ int main(int argc, char ** argv)
                     cout << "Starting brute force convex hull..." << endl;
                     drawPoints(points, g);
                     convexHullBrute(points, g);
+                    cout << "DONE!" << endl;
                     g.update();
                     break;
                 }
@@ -502,7 +579,10 @@ int main(int argc, char ** argv)
 
                 case '3': {
                     cout << "Starting divide and conquer convex hull..." << endl;
-                    // TODO: Call divide and conquer convex hull
+                    drawPoints(points, g);
+                    convexHullDC(points, g);
+                    cout << "DONE!" << endl;
+                    g.update();
                     break;
                 }
 
