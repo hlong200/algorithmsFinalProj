@@ -93,15 +93,15 @@ struct Circle {
 
 bool convexTest(Point p1, Point p2, Point p3);
 
-vector<Point> convexHullBrute(const vector<Point>& points, SDL_Plotter& g);
+vector<Point> convexHullBrute(const vector<Point>& points, SDL_Plotter& g, bool visualize = true);
 
 void drawPoints(const vector<Point>& points, SDL_Plotter& g);
 
-pair<Point, Point> closestPairBrute(const vector<Point>& points, SDL_Plotter& g);
+pair<Point, Point> closestPairBrute(const vector<Point>& points, SDL_Plotter& g, bool visualize = true);
 
-pair<vector<Point>,double> closestPairRecursive(const vector <Point>& pX, const vector<Point>& pY, SDL_Plotter& g, int depth);
+pair<vector<Point>,double> closestPairRecursive(const vector <Point>& pX, const vector<Point>& pY, SDL_Plotter& g, int depth, bool visualize = true);
 
-void closestPairDC(const vector<Point>& points, SDL_Plotter& g);
+pair<vector<Point>,double> closestPairDC(const vector<Point>& points, SDL_Plotter& g, bool visualize = true);
 
 void genPoints(vector<Point>& points, const Point& p1, const Point& p2, int sampleSize = 1000);
 
@@ -406,8 +406,6 @@ bool convexTest(Point p1, Point p2, Point p3) {
     return (p2.y - p1.y) * (p3.x - p2.x) - (p2.x - p1.x) * (p3.y - p2.y) > 2;
 }
 
-vector<Point> convexHullBrute(const vector<Point>& points, SDL_Plotter& g);
-
 void drawPoints(const vector<Point>& points, SDL_Plotter& g) {
     g.clear();
     for(Point p: points) {
@@ -416,7 +414,7 @@ void drawPoints(const vector<Point>& points, SDL_Plotter& g) {
     g.update();
 }
 
-vector<Point> convexHullBrute(const vector<Point>& points, SDL_Plotter& g) {
+vector<Point> convexHullBrute(const vector<Point>& points, SDL_Plotter& g, bool visualize) {
     vector<Point> result;
     if(points.size() >= 3) {
         int index = 0;
@@ -430,7 +428,7 @@ vector<Point> convexHullBrute(const vector<Point>& points, SDL_Plotter& g) {
         Line l;
         do {
             result.push_back(points.at(x));
-            if(result.size() > 1) {
+            if(result.size() > 1 && visualize) {
                 Line l(result.at(result.size() - 1), result.at(result.size() - 2), RED);
                 l.draw(g);
                 g.update();
@@ -449,7 +447,7 @@ vector<Point> convexHullBrute(const vector<Point>& points, SDL_Plotter& g) {
         } while(x != index);
     }
 
-    if(result.size() > 1) {
+    if(result.size() > 1 && visualize) {
         Line l(result.at(result.size() - 1), result.at(0), RED);
         l.draw(g);
     }
@@ -469,26 +467,30 @@ void compareAlgorithms(vector<Point>& points, SDL_Plotter& g){
     vector<double> CHB;
     vector<double> CHDC;
 
-    for(int i = 2; i < 102; i++){
+    int inputCount = 100;
+
+    for(int i = 2; i < inputCount + 2; i++){
+        cout << "running for input size " << i << endl;
+
         genPoints(points2, p1, p2, i);
         vector<Point> points3 = points2;
         vector<Point> points4 = points3;
         vector<Point> points5 = points4;
 
         clock_t begin = clock();
-        closestPairBrute(points2, g);
+        closestPairBrute(points2, g, false);
         clock_t end = clock();
         double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
         CPB.push_back(elapsed_secs);
 
         begin = clock();
-        closestPairDC(points3,g);
+        closestPairDC(points3, g, false);
         end = clock();
         elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
         CPDC.push_back(elapsed_secs);
 
         begin = clock();
-        convexHullBrute(points4, g);
+        convexHullBrute(points4, g, false);
         end = clock();
         elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
         CHB.push_back(elapsed_secs);
@@ -518,10 +520,10 @@ void compareAlgorithms(vector<Point>& points, SDL_Plotter& g){
         maxTime = max(maxTime, theTime);
     }
 
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < inputCount; i++){
         double value = CPB[i];
 
-        int x = (1920 / 100) * i;
+        int x = (1920.0 / inputCount) * i;
         int y = (value / maxTime) * 1080;
         y = 1080 - y;
 
@@ -529,10 +531,10 @@ void compareAlgorithms(vector<Point>& points, SDL_Plotter& g){
         points.push_back(toPlace);
     }
 
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < inputCount; i++){
         double value = CPDC[i];
 
-        int x = (1920 / 100) * i;
+        int x = (1920.0 / inputCount) * i;
         int y = (value / maxTime) * 1080;
         y = 1080 - y;
 
@@ -540,10 +542,10 @@ void compareAlgorithms(vector<Point>& points, SDL_Plotter& g){
         points.push_back(toPlace);
     }
 
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < inputCount; i++){
         double value = CHB[i];
 
-        int x = (1920 / 100) * i;
+        int x = (1920.0 / inputCount) * i;
         int y = (value / maxTime) * 1080;
         y = 1080 - y;
 
@@ -551,10 +553,10 @@ void compareAlgorithms(vector<Point>& points, SDL_Plotter& g){
         points.push_back(toPlace);
     }
 
-    for(int i = 0; i < 100; i++){
+    for(int i = 0; i < inputCount; i++){
         double value = CHDC[i];
 
-        int x = (1920 / 100) * i;
+        int x = (1920.0 / inputCount) * i;
         int y = (value / maxTime) * 1080;
         y = 1080 - y;
 
@@ -562,10 +564,17 @@ void compareAlgorithms(vector<Point>& points, SDL_Plotter& g){
         points.push_back(toPlace);
     }
 
+    cout << "Plotting points for comparision..." << endl;
+    cout << "Max time: " << maxTime << endl;
+    cout << "Max input size: " << inputCount << endl;
+    cout << "Number of points plotted: " << points.size() << endl;
+
     drawPoints(points, g);
+    cout << "Updating screen..." << endl;
+    g.update();
 }
 
-pair<Point, Point> closestPairBrute(const vector<Point>& points, SDL_Plotter& g) {
+pair<Point, Point> closestPairBrute(const vector<Point>& points, SDL_Plotter& g, bool visualize) {
     if(points.size() > 2) {
         double minDist = numeric_limits<double>::max();
         pair<Point, Point> closest;
@@ -581,17 +590,22 @@ pair<Point, Point> closestPairBrute(const vector<Point>& points, SDL_Plotter& g)
                     //cout << "Closer one found!" << endl;
                     l.color = RED;
                 }
-                l.draw(g);
-                g.update();
+                if(visualize) {
+                    l.draw(g);
+                    g.update();
+                }
             }
-            g.clear();
-            drawPoints(points, g);
+            if(visualize) {
+                g.clear();
+                drawPoints(points, g);
+            }
         }
 
-        g.update();
-
-        Line l(closest.first, closest.second, RED);
-        l.draw(g);
+        if(visualize) {
+            g.update();
+            Line l(closest.first, closest.second, RED);
+            l.draw(g);
+        }
 
         return closest;
     } else if(points.size() == 2) {
@@ -603,10 +617,9 @@ pair<Point, Point> closestPairBrute(const vector<Point>& points, SDL_Plotter& g)
     }
 }
 
-pair<vector<Point>,double> closestPairRecursive(const vector <Point>& pX, const vector<Point>& pY, SDL_Plotter& g, int depth) {
+pair<vector<Point>,double> closestPairRecursive(const vector <Point>& pX, const vector<Point>& pY, SDL_Plotter& g, int depth, bool visualize) {
     int n = pX.size();
     if(n <= 3) {
-
         double minDist;
         vector<Point> minPoints;
         for (int i = 0; i < n - 1; i++) {
@@ -629,34 +642,35 @@ pair<vector<Point>,double> closestPairRecursive(const vector <Point>& pX, const 
         vector<Point> rX(itr + midIndex,itr + n);
 
         double midX = abs(static_cast<double>(lX[lX.size() - 1].x + rX[0].x)) / 2;
+        if(visualize) {
+            Line l(Point((int) midX, 0), Point((int) midX, 1920), RED);
+            switch (depth % 7) {
+                case 0:
+                    l.color = RED;
+                    break;
+                case 1:
+                    l.color = ORANGE;
+                    break;
+                case 2:
+                    l.color = YELLOW;
+                    break;
+                case 3:
+                    l.color = GREEN;
+                    break;
+                case 4:
+                    l.color = BLUE;
+                    break;
+                case 5:
+                    l.color = INDIGO;
+                    break;
+                default:
+                    l.color = VIOLET;
+                    break;
+            }
 
-        Line l(Point((int) midX, 0), Point((int) midX, 1920), RED);
-        switch(depth % 7) {
-            case 0:
-                l.color = RED;
-                break;
-            case 1:
-                l.color = ORANGE;
-                break;
-            case 2:
-                l.color = YELLOW;
-                break;
-            case 3:
-                l.color = GREEN;
-                break;
-            case 4:
-                l.color = BLUE;
-                break;
-            case 5:
-                l.color = INDIGO;
-                break;
-            default:
-                l.color = VIOLET;
-                break;
+            l.draw(g);
+            g.update();
         }
-
-        l.draw(g);
-        g.update();
 
         vector<Point> lY = lX;
         sort(lY.begin(),lY.end(),[](const Point& p1, const Point& p2) {
@@ -667,8 +681,8 @@ pair<vector<Point>,double> closestPairRecursive(const vector <Point>& pX, const 
             return p1.y < p2.y;
         });
 
-        pair<vector<Point>,double> lRes = closestPairRecursive(lX,lY,g,depth+1);
-        pair<vector<Point>,double> rRes = closestPairRecursive(rX,rY,g,depth+1);
+        pair<vector<Point>,double> lRes = closestPairRecursive(lX,lY,g,depth+1,visualize);
+        pair<vector<Point>,double> rRes = closestPairRecursive(rX,rY,g,depth+1,visualize);
 
         pair<vector<Point>,double>& minRes = ((lRes.second < rRes.second) ? lRes : rRes);
 
@@ -706,7 +720,7 @@ pair<vector<Point>,double> closestPairRecursive(const vector <Point>& pX, const 
     }
 }
 
-void closestPairDC(const vector<Point>& points, SDL_Plotter& g) {
+pair<vector<Point>,double> closestPairDC(const vector<Point>& points, SDL_Plotter& g, bool visualize) {
     vector<Point> xSorted(points);
     vector<Point> ySorted(points);
 
@@ -718,16 +732,18 @@ void closestPairDC(const vector<Point>& points, SDL_Plotter& g) {
         return p1.y < p2.y;
     });
 
-
-
-    pair<vector<Point>,double> closestP = closestPairRecursive(xSorted,ySorted,g,0);
-    cout << "CLOSEST PAIR FINAL RESULT: ";
-    for(int i = 0; i < closestP.first.size(); i++) {
-        closestP.first[i].color = RED;
-        closestP.first[i].drawBig(g);
-        cout << closestP.first[i] << ' ';
+    pair<vector<Point>,double> closestP = closestPairRecursive(xSorted,ySorted,g,0,visualize);
+    if(visualize) {
+        cout << "CLOSEST PAIR FINAL RESULT: ";
+        for (int i = 0; i < closestP.first.size(); i++) {
+            closestP.first[i].color = RED;
+            closestP.first[i].drawBig(g);
+            cout << closestP.first[i] << ' ';
+        }
+        cout << endl;
     }
-    cout << endl;
+
+    return closestP;
 }
 
 void genPoints(vector<Point>& points, const Point& p1, const Point& p2, int sampleSize) {
