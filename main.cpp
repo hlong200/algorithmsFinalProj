@@ -395,7 +395,7 @@ void Circle::draw() {
 }
 
 bool convexTest(Point p1, Point p2, Point p3) {
-    return (p2.y - p1.y) * (p3.x - p2.x) - (p2.x - p1.x) * (p3.y - p2.y) > 2;
+    return (p2.y - p1.y) * (p3.x - p2.x) - (p2.x - p1.x) * (p3.y - p2.y) >= 0;
 }
 
 void drawPoints(const vector<Point>& points) {
@@ -452,6 +452,17 @@ long long convexHullBrute(const vector<Point>& points, bool visualize) {
     return chrono::duration_cast<chrono::nanoseconds>(stop - start).count();
 }
 
+// The following variable is global for the compare function
+Point globalMid;
+
+// The following function is used for convexHullDC
+bool compare(Point p1, Point p2){
+    Point p = Point(p1.x - globalMid.x, p1.y - globalMid.y);
+    Point p0 = Point(p2.x - globalMid.x, p2.y - globalMid.y);
+
+    return p.y*p0.x < p0.y*p.x;
+}
+
 vector<Point> convexHullDC(const vector<Point>& points, bool visualize){
     if(points.size() <= 5){
         vector<Point> p(points);
@@ -485,45 +496,87 @@ vector<Point> convexHullDC(const vector<Point>& points, bool visualize){
         leftVector = convexHullDC(leftVector);
         rightVector = convexHullDC(rightVector);
 
-        //Look for tangents on the most extreme y-values.
-        min = leftVector[0];
-        max = leftVector[0];
-        Point min2 = rightVector[0];
-        Point max2 = rightVector[0];
-        for(Point p : leftVector){
-            if(p.y < min.y){
-                min = p;
-            } else if(p.y > max.y){
-                max = p;
+        //Look for tangents on the top
+        //Need rightmost point of leftVector and leftmost point of rightVector
+        int rightmostL = 0;
+        int leftmostR = 0;
+
+        for(int rl = 0; rl < leftVector.size(); rl++){
+            if(leftVector[rl].x > leftVector[rightmostL].x){
+                rightmostL = rl;
             }
         }
-        for(Point p : rightVector){
-            if(p.y < min2.y){
-                min2 = p;
-            } else if(p.y > max2.y){
-                max2 = p;
+        for(int lr = 0; lr < leftVector.size(); lr++){
+            if(leftVector[lr].x < leftVector[rightmostL].x){
+                leftmostR = lr;
             }
         }
 
-        for(Point p : leftVector){
-            if(p.x <= min.x && max.x){
-                result.push_back(p);
+        //Find the upper tangent
+        int leftCopy = rightmostL;
+        int rightCopy = leftmostR;
+        bool finished = false;
+
+        while(!finished){
+            finished = true;
+            while(convexTest(rightVector[rightCopy],
+                             leftVector[leftCopy],
+                             leftVector[(leftCopy + 1) % leftVector.size()])){
+                leftCopy = (leftCopy + 1) % leftVector.size();
             }
-        }
-        for(Point p : rightVector){
-            if(p.x >= min.x && max.x){
-                result.push_back(p);
+            while(!convexTest(leftVector[leftCopy],
+                    rightVector[rightCopy],
+                    rightVector[(rightVector.size() + rightCopy - 1) % rightVector.size()])){
+                rightCopy = (rightVector.size() + rightCopy - 1) % rightVector.size();
+                finished = false;
             }
         }
 
-        Line l(min, min2);
-        l.draw();
-        g.update();
-        g.Sleep(100);
+        //Find the lower tangent
+        int leftCopy2 = rightmostL;
+        int rightCopy2 = leftmostR;
+        finished = false;
 
-        l.p1 = max;
-        l.p2 = max2;
-        l.draw();
+        while(!finished){
+            finished = true;
+            while(convexTest(leftVector[leftCopy2],
+                             rightVector[rightCopy2],
+                             rightVector[(rightCopy2 + 1) % rightVector.size()])){
+                rightCopy2 = (rightCopy2 + 1) % rightVector.size();
+            }
+            while(!convexTest(rightVector[rightCopy2],
+                             leftVector[leftCopy2],
+                             leftVector[(leftVector.size() + leftCopy2 - 1) % leftVector.size()])){
+                leftCopy2 = (leftCopy2 - 1) % leftVector.size();
+                finished = false;
+            }
+
+            //At this point, the copy1's contain the upper tangent
+            //and the copy2's contain the lower tangent
+            for(int index = leftCopy; index != leftCopy2; index = (index+1)%leftVector.size()){
+                result.push_back(leftVector[index]);
+            }
+
+            for(int index = rightCopy2; index != rightCopy; index = (index+1)%rightVector.size()){
+                result.push_back(rightVector[index]);
+            }
+        }
+
+        //All points are sorted into one big convex hull, choose a color
+        //and plot them in order.
+        Color mostlyRandomColor = Color(result[0].x%240, result[0].x*2%240, result[0].x*3%240);
+        Line l1;
+
+        for(int index = 0; index < result.size()-1; index++){
+            l1 = Line(result[index], result[index+1], mostlyRandomColor);
+            l1.draw();
+            g.update();
+            g.Sleep(100);
+        }
+
+        //Don't forget the last point -> first point
+        l1 = Line(result[result.size()-1], result[0], mostlyRandomColor);
+        l1.draw();
         g.update();
         g.Sleep(100);
 
