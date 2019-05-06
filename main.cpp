@@ -12,14 +12,14 @@
 #include <queue>
 #include <algorithm>
 #include <limits>
-#include <ctime>
+#include <chrono>
 #include <random>
 #include <thread>
 #include <mutex>
 
 using namespace std;
 
-mutex mx;
+//mutex mx;
 
 struct Color {
     int r, g, b;
@@ -270,11 +270,11 @@ double Point::dist(const Point& other) const {
     return sqrt(pow(x - other.x, 2.0) + pow(y - other.y, 2.0));
 }
 void Point::draw(SDL_Plotter& g) {
-    mx.lock();
+    //mx.lock();
     if(x >= 0 && x < g.getCol() && y >= 0 && y < g.getRow()) {
         g.plotPixel(x, y, color.r, color.g, color.b);
     }
-    mx.unlock();
+    //mx.unlock();
 }
 void Point::erase(SDL_Plotter& g) {
     if(x >= 0 && x < g.getCol() && y >= 0 && y < g.getRow()) {
@@ -467,7 +467,7 @@ void compareAlgorithms(vector<Point>& points, SDL_Plotter& g){
     vector<double> CHB;
     vector<double> CHDC;
 
-    int inputCount = 100;
+    int inputCount = 300;
 
     for(int i = 2; i < inputCount + 2; i++){
         cout << "running for input size " << i << endl;
@@ -477,29 +477,29 @@ void compareAlgorithms(vector<Point>& points, SDL_Plotter& g){
         vector<Point> points4 = points3;
         vector<Point> points5 = points4;
 
-        clock_t begin = clock();
+        auto begin = chrono::system_clock::now();
         closestPairBrute(points2, g, false);
-        clock_t end = clock();
-        double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-        CPB.push_back(elapsed_secs);
+        auto end = chrono::system_clock::now();
+        auto elapsed = chrono::duration_cast<chrono::microseconds>(end - begin).count();
+        CPB.push_back(elapsed);
 
-        begin = clock();
+        begin = chrono::system_clock::now();
         closestPairDC(points3, g, false);
-        end = clock();
-        elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-        CPDC.push_back(elapsed_secs);
+        end = chrono::system_clock::now();
+        elapsed = chrono::duration_cast<chrono::microseconds>(end - begin).count();
+        CPDC.push_back(elapsed);
 
-        begin = clock();
+        begin = chrono::system_clock::now();
         convexHullBrute(points4, g, false);
-        end = clock();
-        elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-        CHB.push_back(elapsed_secs);
+        end = chrono::system_clock::now();
+        elapsed = chrono::duration_cast<chrono::microseconds>(end - begin).count();
+        CHB.push_back(elapsed);
 
-        begin = clock();
+        begin = chrono::system_clock::now();
         //Enter DC Convex Hull method here will use points5
-        end = clock();
-        elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-        CHDC.push_back(elapsed_secs);
+        end = chrono::system_clock::now();
+        elapsed = chrono::duration_cast<chrono::microseconds>(end - begin).count();
+        CHDC.push_back(elapsed);
     }
 
     double maxTime = 0.0;
