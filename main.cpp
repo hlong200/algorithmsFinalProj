@@ -515,6 +515,103 @@ void genPoints(vector<Point>& points, const Point& p1, const Point& p2, Pattern 
     }
 }
 
+void compareAlgorithms(vector<Point>& points, SDL_Plotter& g){
+    points.clear();
+    vector<Point> points2;
+    Point p1(0, 0);
+    Point p2(1920, 1080);
+
+    vector<double> CPB;
+    vector<double> CPDC;
+    vector<double> CHB;
+    vector<double> CHDC;
+
+    for(int i = 1; i < 101; i++){
+        genPoints(points2, p1, p2, RANDOM, i);
+
+        clock_t begin = clock();
+        closestPairBrute(points2, g);
+        clock_t end = clock();
+        double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+        CPB.push_back(elapsed_secs);
+
+        begin = clock();
+        closestPairDC(points2,g);
+        end = clock();
+        elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+        CPDC.push_back(elapsed_secs);
+
+        begin = clock();
+        convexHullBrute(points2, g);
+        end = clock();
+        elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+        CHB.push_back(elapsed_secs);
+
+        begin = clock();
+        //Enter DC Convex Hull method here
+        end = clock();
+        elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+        CHDC.push_back(elapsed_secs);
+    }
+
+    double maxTime = 0.0;
+
+    for(double theTime : CPB){
+        maxTime = max(maxTime, theTime);
+    }
+
+    for(double theTime : CPDC){
+        maxTime = max(maxTime, theTime);
+    }
+
+    for(double theTime : CHB){
+        maxTime = max(maxTime, theTime);
+    }
+
+    for(double theTime : CHDC){
+        maxTime = max(maxTime, theTime);
+    }
+
+    for(int i = 0; i < 100; i++){
+        double value = CPB[i];
+
+        int x = (1920 / 100) * i;
+        int y = (value / maxTime) * 1080;
+
+        Point toPlace(x, y, GREEN);
+        points.push_back(toPlace);
+    }
+
+    for(int i = 0; i < 100; i++){
+        double value = CPDC[i];
+
+        int x = (1920 / 100) * i;
+        int y = (value / maxTime) * 1080;
+
+        Point toPlace(x, y, BLUE);
+        points.push_back(toPlace);
+    }
+
+    for(int i = 0; i < 100; i++){
+        double value = CHB[i];
+
+        int x = (1920 / 100) * i;
+        int y = (value / maxTime) * 1080;
+
+        Point toPlace(x, y, RED);
+        points.push_back(toPlace);
+    }
+
+    for(int i = 0; i < 100; i++){
+        double value = CHDC[i];
+
+        int x = (1920 / 100) * i;
+        int y = (value / maxTime) * 1080;
+
+        Point toPlace(x, y, YELLOW);
+        points.push_back(toPlace);
+    }
+}
 
 
 int main(int argc, char ** argv)

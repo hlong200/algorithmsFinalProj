@@ -11,43 +11,8 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5aca1c07-f6c7-470b-9be6-1435f266a90c" name="Default Changelist" comment="Added ConvexHullDC and changed a few print statements.">
+    <list default="true" id="5aca1c07-f6c7-470b-9be6-1435f266a90c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.2/CMakeCCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.2/CMakeCXXCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.2/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.2/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.2/CMakeRCCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.2/CMakeSystem.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.2/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.2/CompilerIdC/a.exe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.2/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.13.2/CompilerIdCXX/a.exe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/CXX.includecache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/SDL_Plotter.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/SDL_Plotter.cpp.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/build.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/depend.internal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/flags.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/includes_CXX.rsp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/includes_CXX.rsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/linklibs.rsp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/linklibs.rsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/main.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/main.cpp.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/objects.a" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/objects.a" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/groupProject.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/groupProject.cbp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/groupProject.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/groupProject.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -74,55 +39,15 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="140">
-              <caret line="323" column="26" selection-start-line="323" selection-start-column="26" selection-end-line="323" selection-end-column="26" />
+            <state relative-caret-position="1391">
+              <caret line="307" column="25" selection-start-line="307" selection-start-column="25" selection-end-line="307" selection-end-column="25" />
               <folding>
                 <element signature="e#94#113#0" expanded="true" />
                 <element signature="e#722#1644#1" />
                 <element signature="e#1647#1773#0" />
                 <element signature="e#4048#4734#1" />
                 <element signature="e#6448#6598#0" />
-                <element signature="e#6629#7700#0" />
-                <element signature="e#7702#10984#0" />
-                <element signature="e#10986#11680#0" />
-                <element signature="e#11708#12271#0" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://C:/MinGW/lib/gcc/mingw32/8.2.0/include/c++/bits/stl_vector.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="805" selection-start-line="805" selection-end-line="805" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SDL_Plotter.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="17" selection-start-line="17" selection-end-line="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SDL2_mixer-2.0.4/i686-w64-mingw32/include/SDL2/SDL_mixer.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="25" column="22" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SDL_Plotter.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4641">
-              <caret line="273" column="6" selection-start-line="273" selection-start-column="6" selection-end-line="273" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -169,7 +94,17 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="ProjectPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="groupProject" type="b2602c69:ProjectViewProjectNode" />
+              <item name="algorithmsFinalProj" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -211,32 +146,40 @@
       <updated>1555110230718</updated>
       <workItem from="1555110232174" duration="13479000" />
       <workItem from="1555366520812" duration="298000" />
-      <workItem from="1557120352278" duration="9618000" />
+      <workItem from="1557120352278" duration="13072000" />
     </task>
+    <task id="LOCAL-00001" summary="Changed color of ConvexHullDC to be more visible.">
+      <created>1557149506350</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1557149506350</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24571000" />
+    <option name="totallyTimeSpent" value="28025000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="0" width="781" height="830" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.0776699" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23023579" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49930653" weight="0.3295129" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.47711512" weight="0.32808024" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.46463245" weight="0.32808024" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49930653" weight="0.39684814" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" />
-      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.47295424" weight="0.33094555" />
+      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.46047157" weight="0.33094555" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49930653" weight="0.3295129" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5006935" side_tool="true" visible="true" weight="0.3295129" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="11" sideWeight="0.49930653" visible="true" weight="0.3295129" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50208044" side_tool="true" visible="true" weight="0.3295129" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="11" sideWeight="0.49791956" visible="true" weight="0.3295129" />
       <window_info anchor="bottom" id="CMake" order="12" weight="0.331509" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -249,7 +192,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added ConvexHullDC and changed a few print statements." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added ConvexHullDC and changed a few print statements." />
+    <MESSAGE value="Changed color of ConvexHullDC to be more visible." />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed color of ConvexHullDC to be more visible." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -274,13 +218,6 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://C:/Program Files (x86)/CodeBlocks/MinGW/lib/gcc/mingw32/5.1.0/include/c++/bits/stl_queue.h" />
-    <entry file="file://$PROJECT_DIR$/SDL_Plotter.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/SDL2_mixer-2.0.4/i686-w64-mingw32/include/SDL2/SDL_mixer.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
@@ -309,20 +246,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/SDL_Plotter.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="323" column="26" selection-start-line="323" selection-start-column="26" selection-end-line="323" selection-end-column="26" />
+        <state relative-caret-position="1391">
+          <caret line="307" column="25" selection-start-line="307" selection-start-column="25" selection-end-line="307" selection-end-column="25" />
           <folding>
             <element signature="e#94#113#0" expanded="true" />
             <element signature="e#722#1644#1" />
             <element signature="e#1647#1773#0" />
             <element signature="e#4048#4734#1" />
             <element signature="e#6448#6598#0" />
-            <element signature="e#6629#7700#0" />
-            <element signature="e#7702#10984#0" />
-            <element signature="e#10986#11680#0" />
-            <element signature="e#11708#12271#0" />
           </folding>
         </state>
       </provider>
