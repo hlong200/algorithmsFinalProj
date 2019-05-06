@@ -616,7 +616,7 @@ close_code.h
 
 ../SDL2-2.0.9/i686-w64-mingw32/include/SDL2/close_code.h
 
-C:/Users/hunte/Documents/School work/Algorithms/algorithmsFinalProj/SDL_Plotter.h
+E:/CSI 3344/groupProject/SDL_Plotter.h
 SDL2/SDL.h
 -
 SDL2/SDL_mixer.h
@@ -632,11 +632,11 @@ string.h
 map
 -
 
-C:/Users/hunte/Documents/School work/Algorithms/algorithmsFinalProj/main.cpp
+E:/CSI 3344/groupProject/main.cpp
 iostream
 -
 SDL_Plotter.h
-C:/Users/hunte/Documents/School work/Algorithms/algorithmsFinalProj/SDL_Plotter.h
+E:/CSI 3344/groupProject/SDL_Plotter.h
 math.h
 -
 vector
@@ -647,8 +647,10 @@ algorithm
 -
 limits
 -
-ctime
+chrono
 -
 random
+-
+chrono
 -
 

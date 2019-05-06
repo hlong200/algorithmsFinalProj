@@ -13,6 +13,31 @@
   <component name="ChangeListManager">
     <list default="true" id="5aca1c07-f6c7-470b-9be6-1435f266a90c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/CXX.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/DependInfo.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/SDL_Plotter.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/SDL_Plotter.cpp.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/build.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/depend.internal" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/depend.internal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/flags.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/flags.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/includes_CXX.rsp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/includes_CXX.rsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/link.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/linklibs.rsp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/linklibs.rsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/main.cpp.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/objects.a" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/groupProject.dir/objects.a" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/groupProject.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/groupProject.cbp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/groupProject.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/groupProject.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,36 +52,56 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="30" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="148">
-              <caret line="613" column="1" selection-start-line="613" selection-start-column="1" selection-end-line="613" selection-end-column="1" />
-              <folding>
-                <element signature="e#94#113#0" expanded="true" />
-                <element signature="e#722#1644#1" />
-                <element signature="e#1647#1773#0" />
-                <element signature="e#4048#4734#1" />
-                <element signature="e#6448#6598#0" />
-              </folding>
+            <state relative-caret-position="590">
+              <caret line="427" column="23" lean-forward="true" selection-start-line="427" selection-start-column="23" selection-end-line="427" selection-end-column="23" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Downloads/main (1).cpp">
+        <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5748">
-              <caret line="537" column="1" lean-forward="true" selection-start-line="441" selection-end-line="537" selection-end-column="1" />
+            <state relative-caret-position="228">
+              <caret line="12" column="68" selection-start-line="12" selection-start-column="68" selection-end-line="12" selection-end-column="68" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://C:/Program Files (x86)/CodeBlocks/MinGW/lib/gcc/mingw32/5.1.0/include/c++/bits/stl_vector.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="14801">
+              <caret line="779" selection-start-line="779" selection-end-line="779" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SDL_Plotter.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="17" selection-start-line="17" selection-end-line="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SDL2_mixer-2.0.4/i686-w64-mingw32/include/SDL2/SDL_mixer.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="475">
+              <caret line="25" column="22" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SDL_Plotter.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1368">
+              <caret line="72" column="24" selection-start-line="72" selection-start-column="18" selection-end-line="72" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -66,6 +111,11 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>retVector</find>
+      <find>brute</find>
+      <find>draw(g</find>
+      <find>drawPoints</find>
+      <find>convexHullDC</find>
+      <find>main</find>
     </findStrings>
     <replaceStrings>
       <replace>result</replace>
@@ -91,11 +141,10 @@
     </option>
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-233" />
-    <option name="y" value="-23" />
-    <option name="width" value="1440" />
-    <option name="height" value="774" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="1911" />
+    <option name="width" value="1940" />
+    <option name="height" value="2111" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -109,7 +158,7 @@
           <expand>
             <path>
               <item name="groupProject" type="b2602c69:ProjectViewProjectNode" />
-              <item name="algorithmsFinalProj" type="462c0819:PsiDirectoryNode" />
+              <item name="groupProject" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -123,6 +172,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Simplex" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="CPPToolchains" />
   </component>
   <component name="RunDashboard">
@@ -137,6 +187,13 @@
       </list>
     </option>
   </component>
+  <component name="RunManager">
+    <configuration name="Unnamed" type="CMakeRunConfiguration" factoryName="Application" nameIsGenerated="true" PASS_PARENT_ENVS_2="true" PROJECT_NAME="groupProject" TARGET_NAME="groupProject" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="groupProject" RUN_TARGET_NAME="groupProject">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -150,6 +207,7 @@
       <workItem from="1555110232174" duration="13479000" />
       <workItem from="1555366520812" duration="298000" />
       <workItem from="1557120352278" duration="13884000" />
+      <workItem from="1557174039541" duration="640000" />
     </task>
     <task id="LOCAL-00001" summary="Changed color of ConvexHullDC to be more visible.">
       <created>1557149506350</created>
@@ -169,27 +227,28 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28837000" />
+    <option name="totallyTimeSpent" value="30270000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-6" y="0" width="781" height="830" extended-state="0" />
+    <frame x="1274" y="0" width="1293" height="1407" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23023579" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26839128" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49930653" weight="0.3295129" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.46463245" weight="0.32808024" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.46463245" visible="true" weight="0.32994527" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49930653" weight="0.39684814" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" />
-      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.46047157" weight="0.33094555" />
+      <window_info anchor="bottom" id="Messages" order="8" sideWeight="0.45970625" weight="0.32994527" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49930653" weight="0.3295129" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50208044" side_tool="true" visible="true" weight="0.3295129" />
-      <window_info anchor="bottom" id="Version Control" order="11" sideWeight="0.49791956" visible="true" weight="0.3295129" />
-      <window_info anchor="bottom" id="CMake" order="12" weight="0.331509" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.54029375" side_tool="true" weight="0.33022532" />
+      <window_info anchor="bottom" id="Version Control" order="11" sideWeight="0.49791956" weight="0.3295129" />
+      <window_info anchor="bottom" id="CMake" order="12" sideWeight="0.49940452" weight="0.33100232" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -210,17 +269,17 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/main.cpp</url>
-          <line>197</line>
+          <line>189</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/main.cpp</url>
-          <line>184</line>
+          <line>176</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/main.cpp</url>
-          <line>262</line>
+          <line>254</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
@@ -228,64 +287,52 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://C:/Program Files (x86)/CodeBlocks/MinGW/lib/gcc/mingw32/5.1.0/include/c++/bits/stl_queue.h" />
+    <entry file="file://C:/MinGW/lib/gcc/mingw32/8.2.0/include/c++/bits/stl_vector.h" />
+    <entry file="file://$USER_HOME$/Downloads/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2142" />
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/main (1).cpp" />
+    <entry file="file://$PROJECT_DIR$/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="590">
+          <caret line="427" column="23" lean-forward="true" selection-start-line="427" selection-start-column="23" selection-end-line="427" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="12" column="68" selection-start-line="12" selection-start-column="68" selection-end-line="12" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Program Files (x86)/CodeBlocks/MinGW/lib/gcc/mingw32/5.1.0/include/c++/bits/stl_vector.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="14801">
+          <caret line="779" selection-start-line="779" selection-end-line="779" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SDL_Plotter.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/SDL2_mixer-2.0.4/i686-w64-mingw32/include/SDL2/SDL_mixer.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
+        <state relative-caret-position="475">
           <caret line="25" column="22" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/SDL_Plotter.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4641">
-          <caret line="273" column="6" selection-start-line="273" selection-start-column="6" selection-end-line="273" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="30" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/MinGW/lib/gcc/mingw32/8.2.0/include/c++/bits/stl_vector.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="805" selection-start-line="805" selection-end-line="805" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SDL_Plotter.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Downloads/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2142" />
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Downloads/main (1).cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5748">
-          <caret line="537" column="1" lean-forward="true" selection-start-line="441" selection-end-line="537" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
-          <caret line="613" column="1" selection-start-line="613" selection-start-column="1" selection-end-line="613" selection-end-column="1" />
-          <folding>
-            <element signature="e#94#113#0" expanded="true" />
-            <element signature="e#722#1644#1" />
-            <element signature="e#1647#1773#0" />
-            <element signature="e#4048#4734#1" />
-            <element signature="e#6448#6598#0" />
-          </folding>
+        <state relative-caret-position="1368">
+          <caret line="72" column="24" selection-start-line="72" selection-start-column="18" selection-end-line="72" selection-end-column="24" />
         </state>
       </provider>
     </entry>

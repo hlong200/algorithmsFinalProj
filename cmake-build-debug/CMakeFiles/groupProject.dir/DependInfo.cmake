@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "C:/Users/hunte/Documents/School work/Algorithms/algorithmsFinalProj/SDL_Plotter.cpp" "C:/Users/hunte/Documents/School work/Algorithms/algorithmsFinalProj/cmake-build-debug/CMakeFiles/groupProject.dir/SDL_Plotter.cpp.obj"
-  "C:/Users/hunte/Documents/School work/Algorithms/algorithmsFinalProj/main.cpp" "C:/Users/hunte/Documents/School work/Algorithms/algorithmsFinalProj/cmake-build-debug/CMakeFiles/groupProject.dir/main.cpp.obj"
+  "E:/CSI 3344/groupProject/SDL_Plotter.cpp" "E:/CSI 3344/groupProject/cmake-build-debug/CMakeFiles/groupProject.dir/SDL_Plotter.cpp.obj"
+  "E:/CSI 3344/groupProject/main.cpp" "E:/CSI 3344/groupProject/cmake-build-debug/CMakeFiles/groupProject.dir/main.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

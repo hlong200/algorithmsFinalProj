@@ -92,11 +92,11 @@ struct Circle {
 
 bool convexTest(Point p1, Point p2, Point p3);
 
-long long convexHullBrute(const vector<Point>& points, bool visualize = true);
+long long convexHullBrute(const vector<Point>& result, bool visualize = true);
 
-vector<Point> convexHullDC(const vector<Point>& points, SDL_Plotter& g, bool visualize = true);
+vector<Point> convexHullDC(const vector<Point>& points, bool visualize = true);
 
-void drawPoints(const vector<Point>& points, SDL_Plotter& g);
+void drawPoints(const vector<Point>& points);
 
 long long closestPairBrute(const vector<Point>& points, bool visualize = true);
 
@@ -408,7 +408,9 @@ void drawPoints(const vector<Point>& points) {
 
 long long convexHullBrute(const vector<Point>& points, bool visualize) {
     chrono::time_point<chrono::system_clock> start = chrono::system_clock::now();
+
     vector<Point> result;
+
     if(points.size() >= 3) {
         int index = 0;
         for(int i = 0; i < points.size(); i++) {
@@ -421,7 +423,7 @@ long long convexHullBrute(const vector<Point>& points, bool visualize) {
         Line l;
         do {
             result.push_back(points.at(x));
-            if(result.size() > 1 && visualize) {
+            if(result.size() > 1) {
                 Line l(result.at(result.size() - 1), result.at(result.size() - 2), RED);
                 l.draw();
                 g.update();
@@ -440,7 +442,7 @@ long long convexHullBrute(const vector<Point>& points, bool visualize) {
         } while(x != index);
     }
 
-    if(result.size() > 1 && visualize) {
+    if(result.size() > 1) {
         Line l(result.at(result.size() - 1), result.at(0), RED);
         l.draw();
     }
@@ -450,9 +452,11 @@ long long convexHullBrute(const vector<Point>& points, bool visualize) {
     return chrono::duration_cast<chrono::nanoseconds>(stop - start).count();
 }
 
-vector<Point> convexHullDC(const vector<Point>& points, SDL_Plotter& g){
+vector<Point> convexHullDC(const vector<Point>& points, bool visualize){
     if(points.size() <= 5){
-        return convexHullBrute(points, g);
+        vector<Point> p(points);
+        convexHullBrute(p);
+        return p;
     } else{
         //Split in half with a vertical line
         vector<Point> result;
@@ -478,8 +482,8 @@ vector<Point> convexHullDC(const vector<Point>& points, SDL_Plotter& g){
                 rightVector.push_back(p);
             }
         }
-        leftVector = convexHullDC(leftVector, g);
-        rightVector = convexHullDC(rightVector, g);
+        leftVector = convexHullDC(leftVector);
+        rightVector = convexHullDC(rightVector);
 
         //Look for tangents on the most extreme y-values.
         min = leftVector[0];
@@ -513,13 +517,13 @@ vector<Point> convexHullDC(const vector<Point>& points, SDL_Plotter& g){
         }
 
         Line l(min, min2);
-        l.draw(g);
+        l.draw();
         g.update();
         g.Sleep(100);
 
         l.p1 = max;
         l.p2 = max2;
-        l.draw(g);
+        l.draw();
         g.update();
         g.Sleep(100);
 
@@ -527,7 +531,6 @@ vector<Point> convexHullDC(const vector<Point>& points, SDL_Plotter& g){
     }
 }
 
-void compareAlgorithms(vector<Point>& points, SDL_Plotter& g){
 void compareAlgorithms(vector<Point>& points){
     points.clear();
     vector<Point> points2;
@@ -550,19 +553,19 @@ void compareAlgorithms(vector<Point>& points){
         vector<Point> points5 = points4;
 
         auto begin = chrono::system_clock::now();
-        closestPairBrute(points2, g, false);
+        closestPairBrute(points2, false);
         auto end = chrono::system_clock::now();
         auto elapsed = chrono::duration_cast<chrono::microseconds>(end - begin).count();
         CPB.push_back(elapsed);
 
         begin = chrono::system_clock::now();
-        closestPairDC(points3, g, false);
+        closestPairDC(points3, false);
         end = chrono::system_clock::now();
         elapsed = chrono::duration_cast<chrono::microseconds>(end - begin).count();
         CPDC.push_back(elapsed);
 
         begin = chrono::system_clock::now();
-        convexHullBrute(points4, g, false);
+        convexHullBrute(points4, false);
         end = chrono::system_clock::now();
         elapsed = chrono::duration_cast<chrono::microseconds>(end - begin).count();
         CHB.push_back(elapsed);
