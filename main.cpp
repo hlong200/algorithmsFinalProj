@@ -15,6 +15,7 @@
 #include <chrono>
 #include <random>
 #include <chrono>
+#include <sstream>
 
 using namespace std;
 
@@ -112,6 +113,8 @@ vector<long long> analyze(const Point& p1, const Point& p2, long long (*fun)(con
 
 void drawHeuristics(const vector<long long>& heuristics);
 
+int getInputInt();
+
 int main(int argc, char ** argv)
 {
 
@@ -152,6 +155,13 @@ int main(int argc, char ** argv)
                     break;
                 }
 
+                case 'I': {
+                    cout << "Enter sample size followed by the down arrow" << endl;
+
+                    sampleSize = getInputInt();
+                    break;
+                }
+
                 // 1 though 4 visualize the algorithms w/ time complexity analysis
                 case '1': {
                     vector<long long> a = analyze(Point(), Point(1920, 1080), convexHullBrute, sampleSize);
@@ -182,20 +192,6 @@ int main(int argc, char ** argv)
 
                 // Generate test points
                 case 'G': {
-                    cout << "Enter sample size followed by the down arrow" << endl;
-                    input = string();
-                    while (g.getKey() != DOWN_ARROW) {
-                        if (g.kbhit()) {
-                            if (g.getKey() == LEFT_ARROW) {
-                                input.pop_back();
-                            } else {
-                                input.push_back(g.getKey());
-                            }
-
-                            cout << "Input: " << input << endl;
-                        }
-                    }
-
                     cout << "Select endpoints..." << endl;
                     int count = 0;
                     Point p1, p2;
@@ -213,7 +209,7 @@ int main(int argc, char ** argv)
                     }
 
                     cout << "Generating random points..." << endl;
-                    genPoints(points, p1, p2, atoi(input.c_str()));
+                    genPoints(points, p1, p2, sampleSize);
                     drawPoints(points);
                     break;
                 }
@@ -904,4 +900,28 @@ vector<long long> analyze(const Point& p1, const Point& p2, long long (*fun)(con
     g.clear();
 
     return heuristics;
+}
+
+int getInputInt() {
+    string input;
+    while (g.getKey() != DOWN_ARROW) {
+        if (g.kbhit()) {
+            if (g.getKey() == LEFT_ARROW && !input.empty()) {
+                input.pop_back();
+            } else if(g.getKey() != DOWN_ARROW) {
+                input.push_back(g.getKey());
+            }
+
+            cout << "Input: " << input << endl;
+        }
+    }
+
+    stringstream ss;
+    ss << input;
+    int x;
+    ss >> x;
+
+    cout << "New sample size: " << x << endl;
+
+    return x;
 }

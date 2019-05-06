@@ -30,8 +30,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="974">
-              <caret line="264" column="37" selection-start-line="264" selection-start-column="37" selection-end-line="264" selection-end-column="37" />
+            <state relative-caret-position="456">
+              <caret line="910" column="48" selection-start-line="910" selection-start-column="48" selection-end-line="910" selection-end-column="48" />
+              <folding>
+                <element signature="e#94#113#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -91,6 +94,7 @@
       <find>drawPoints</find>
       <find>convexHullDC</find>
       <find>main</find>
+      <find>getInput</find>
     </findStrings>
     <replaceStrings>
       <replace>result</replace>
@@ -183,7 +187,7 @@
       <workItem from="1555110232174" duration="13479000" />
       <workItem from="1555366520812" duration="298000" />
       <workItem from="1557120352278" duration="13884000" />
-      <workItem from="1557174039541" duration="1021000" />
+      <workItem from="1557174039541" duration="1602000" />
     </task>
     <task id="LOCAL-00001" summary="Changed color of ConvexHullDC to be more visible.">
       <created>1557149506350</created>
@@ -203,7 +207,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30651000" />
+    <option name="totallyTimeSpent" value="31232000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="2575" height="1415" extended-state="6" />
@@ -245,17 +249,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/main.cpp</url>
-          <line>191</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/main.cpp</url>
-          <line>177</line>
+          <line>187</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/main.cpp</url>
-          <line>282</line>
+          <line>278</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
@@ -272,8 +271,11 @@
     <entry file="file://$USER_HOME$/Downloads/main (1).cpp" />
     <entry file="file://$PROJECT_DIR$/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="974">
-          <caret line="264" column="37" selection-start-line="264" selection-start-column="37" selection-end-line="264" selection-end-column="37" />
+        <state relative-caret-position="456">
+          <caret line="910" column="48" selection-start-line="910" selection-start-column="48" selection-end-line="910" selection-end-column="48" />
+          <folding>
+            <element signature="e#94#113#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
