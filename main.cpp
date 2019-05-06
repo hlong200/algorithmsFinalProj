@@ -152,6 +152,7 @@ int main(int argc, char ** argv)
                     break;
                 }
 
+                // 1 though 4 visualize the algorithms w/ time complexity analysis
                 case '1': {
                     vector<long long> a = analyze(Point(), Point(1920, 1080), convexHullBrute, sampleSize);
                     drawHeuristics(a);
@@ -179,6 +180,7 @@ int main(int argc, char ** argv)
                     break;
                 }
 
+                // Generate test points
                 case 'G': {
                     cout << "Enter sample size followed by the down arrow" << endl;
                     input = string();
@@ -216,6 +218,31 @@ int main(int argc, char ** argv)
                     break;
                 }
 
+                // 5 through 8 run the visualizations w/out time complexity analysis
+                case '5': {
+                    convexHullBrute(points);
+                    g.update();
+                    break;
+                }
+
+                case '6': {
+                    closestPairBrute(points);
+                    g.update();
+                    break;
+                }
+
+                case '7': {
+                    convexHullDC(points);
+                    g.update();
+                    break;
+                }
+
+                case '8': {
+                    closestPairDC(points);
+                    g.update();
+                    break;
+                }
+
                 case ' ': {
                     g.getMouseLocation(curX, curY);
                     Rectangle r(x, y, curX, curY, GREEN);
@@ -235,6 +262,7 @@ int main(int argc, char ** argv)
 
         }
 
+        // Manual placement of points
         if(g.getMouseClick(x, y)) {
             bool found = false;
             for(int i = 0; i < points.size() && !found; i++) {
