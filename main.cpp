@@ -212,7 +212,9 @@ int main(int argc, char ** argv)
                     }
 
                     cout << "Generating random points..." << endl;
+                    vector<Point> tmp(points.begin(), points.end());
                     genPoints(points, p1, p2, sampleSize);
+                    points.insert(points.end(), tmp.begin(), tmp.end());
                     drawPoints(points);
                     break;
                 }
@@ -432,7 +434,7 @@ void Circle::draw() {
 }
 
 bool convexTest(Point p1, Point p2, Point p3) {
-    return (p2.y - p1.y) * (p3.x - p2.x) - (p2.x - p1.x) * (p3.y - p2.y) >= 0;
+    return (p2.y - p1.y) * (p3.x - p2.x) - (p2.x - p1.x) * (p3.y - p2.y) > 2;
 }
 
 void drawPoints(const vector<Point>& points) {
@@ -571,6 +573,7 @@ long long convexHullDC(vector<Point>& points, bool visualize) {
             Line l(p1, p2, RED);
             l.draw();
             g.update();
+            g.Sleep(100);
         }
     }
 
