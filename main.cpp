@@ -16,6 +16,7 @@
 #include <random>
 #include <chrono>
 #include <sstream>
+#include <stack>
 
 using namespace std;
 
@@ -48,6 +49,7 @@ struct Point {
     Point() { x = y = 0; }
     Point(int x, int y, const Color& color = BLACK);
     double dist(const Point& other) const;
+    double distSqr(const Point& other) const;
     void draw();
     void drawBig();
     void erase();
@@ -93,23 +95,23 @@ struct Circle {
 
 bool convexTest(Point p1, Point p2, Point p3);
 
-long long convexHullBrute(const vector<Point>& result, bool visualize = true);
+long long convexHullBrute(vector<Point>& result, bool visualize = true);
 
-vector<Point> convexHullDC(const vector<Point>& points, bool visualize = true);
+long long convexHullDC(vector<Point>& points, bool visualize = true);
 
 void drawPoints(const vector<Point>& points);
 
-long long closestPairBrute(const vector<Point>& points, bool visualize = true);
+long long closestPairBrute(vector<Point>& points, bool visualize = true);
 
 pair<vector<Point>,double> closestPairRecursive(const vector <Point>& pX, const vector<Point>& pY, int depth, bool visualize = true);
 
-long long closestPairDC(const vector<Point>& points, bool visualize = true);
+long long closestPairDC(vector<Point>& points, bool visualize = true);
 
 void genPoints(vector<Point>& points, const Point& p1, const Point& p2, int sampleSize = 1000);
 
 void compareAlgorithms(vector<Point>& points);
 
-vector<long long> analyze(const Point& p1, const Point& p2, long long (*fun)(const vector<Point>& points, bool graphics), int testSize = 100);
+vector<long long> analyze(const Point& p1, const Point& p2, long long (*fun)(vector<Point>& points, bool graphics), int testSize = 100);
 
 void drawHeuristics(const vector<long long>& heuristics);
 
@@ -178,8 +180,9 @@ int main(int argc, char ** argv)
                 }
 
                 case '3': {
-                    cout << "Starting divide and conquer convex hull..." << endl;
-                    // TODO: Call divide and conquer convex hull
+                    vector<long long> a = analyze(Point(), Point(1920, 1080), convexHullDC, sampleSize);
+                    drawHeuristics(a);
+                    g.update();
                     break;
                 }
 
@@ -216,25 +219,32 @@ int main(int argc, char ** argv)
 
                 // 5 through 8 run the visualizations w/out time complexity analysis
                 case '5': {
+                    cout << "Starting convex hull brute force..." << endl;
                     convexHullBrute(points);
+                    cout << endl;
                     g.update();
                     break;
                 }
 
                 case '6': {
+                    cout << "Starting closest pair brute force..." << endl;
                     closestPairBrute(points);
                     g.update();
                     break;
                 }
 
                 case '7': {
+                    cout << "Starting convex hull DC..." << endl;
                     convexHullDC(points);
+                    cout << "DONE!" << endl;
                     g.update();
                     break;
                 }
 
                 case '8': {
+                    cout << "Starting closest pair DC..." << endl;
                     closestPairDC(points);
+                    cout << "DONE!" << endl;
                     g.update();
                     break;
                 }
@@ -286,6 +296,9 @@ Point::Point(int x, int y, const Color& color) {
 }
 double Point::dist(const Point& other) const {
     return sqrt(pow(x - other.x, 2.0) + pow(y - other.y, 2.0));
+}
+double Point::distSqr(const Point& other) const {
+    return pow(x - other.x, 2.0) + pow(y - other.y, 2.0);
 }
 void Point::draw() {
     if(x >= 0 && x < g.getCol() && y >= 0 && y < g.getRow()) {
@@ -430,7 +443,7 @@ void drawPoints(const vector<Point>& points) {
     g.update();
 }
 
-long long convexHullBrute(const vector<Point>& points, bool visualize) {
+long long convexHullBrute(vector<Point>& points, bool visualize) {
     chrono::time_point<chrono::system_clock> start = chrono::system_clock::now();
 
     vector<Point> result;
@@ -476,6 +489,95 @@ long long convexHullBrute(const vector<Point>& points, bool visualize) {
     return chrono::duration_cast<chrono::nanoseconds>(stop - start).count();
 }
 
+int orientation(const Point& p1, const Point& p2, const Point& p3) {
+    int val = (p2.y - p1.y) * (p3.x - p2.x) - (p2.x - p1.x) * (p3.y - p2.y);
+
+    if(val == 0) {
+        return 0;
+    }
+    return (val > 0) ? 1 : 2;
+}
+
+Point global;
+
+bool convexCompare(const Point& p1, const Point& p2) {
+        int val = orientation(global, p1, p2);
+        if(val == 0) {
+            return (global.distSqr(p1) < global.distSqr(p2));
+        }
+        return val == 2;
+    }
+
+Point secondFromTop(stack<Point>& st) {
+    Point p = st.top();
+    st.pop();
+    Point q = st.top();
+    st.push(p);
+    return q;
+}
+
+long long convexHullDC(vector<Point>& points, bool visualize) {
+    chrono::time_point<chrono::system_clock> start = chrono::system_clock::now();
+
+    int minY = points.at(0).y, min = 0;
+    for(int i = 0; i < points.size(); i++) {
+        if((points[i].y < minY) || (minY == points[i].y && points[i].x < points[min].x)) {
+            minY = points[i].y, min = i;
+        }
+    }
+
+    swap(points[0], points[min]);
+
+    global = points[0];
+    sort(points.begin()+1, points.end(), convexCompare);
+
+    int m = 1;
+    for(int i = 1; i < points.size(); i++) {
+        while(i < points.size() - 1 && orientation(global, points.at(i), points.at(i + 1)) == 0) {
+            i++;
+        }
+
+        points[m] = points[i];
+        m++;
+    }
+
+    if(m < 3) return 0;
+
+    stack<Point> st;
+    st.push(points[0]);
+    st.push(points[1]);
+    st.push(points[2]);
+
+    for(int i = 3; i < m; i++) {
+        while(orientation(secondFromTop(st), st.top(), points[i]) != 2) {
+            st.pop();
+        }
+        st.push(points[i]);
+    }
+
+    chrono::time_point<chrono::system_clock> stop = chrono::system_clock::now();
+
+    vector<Point> result;
+
+    while(!st.empty()) {
+        result.push_back(st.top());
+        st.pop();
+    }
+
+    if(visualize) {
+        for (int i = 0; i < result.size(); i++) {
+            Point p1 = result[i % result.size()];
+            Point p2 = result[(i + 1) % result.size()];
+            Line l(p1, p2, RED);
+            l.draw();
+            g.update();
+        }
+    }
+
+    return chrono::duration_cast<chrono::nanoseconds>(stop - start).count();
+
+}
+/*
 // The following variable is global for the compare function
 Point globalMid;
 
@@ -487,7 +589,7 @@ bool compare(Point p1, Point p2){
     return p.y*p0.x < p0.y*p.x;
 }
 
-vector<Point> convexHullDC(const vector<Point>& points, bool visualize){
+vector<Point> convexHullDC(vector<Point>& points, bool visualize){
     if(points.size() <= 5){
         vector<Point> p(points);
         convexHullBrute(p);
@@ -606,7 +708,7 @@ vector<Point> convexHullDC(const vector<Point>& points, bool visualize){
 
         return result;
     }
-}
+}*/
 
 void compareAlgorithms(vector<Point>& points){
     points.clear();
@@ -748,7 +850,7 @@ void drawHeuristics(const vector<long long>& heuristics) {
 
 }
 
-long long closestPairBrute(const vector<Point>& points, bool visualize) {
+long long closestPairBrute(vector<Point>& points, bool visualize) {
     chrono::time_point<chrono::system_clock> start = chrono::system_clock::now();
 
     if(points.size() > 2) {
@@ -895,7 +997,7 @@ pair<vector<Point>,double> closestPairRecursive(const vector <Point>& pX, const 
     }
 }
 
-long long closestPairDC(const vector<Point>& points, bool visualize) {
+long long closestPairDC(vector<Point>& points, bool visualize) {
     chrono::time_point<chrono::system_clock> start = chrono::system_clock::now();
     vector<Point> xSorted(points);
     vector<Point> ySorted(points);
@@ -937,7 +1039,7 @@ void genPoints(vector<Point>& points, const Point& p1, const Point& p2, int samp
     }
 }
 
-vector<long long> analyze(const Point& p1, const Point& p2, long long (*fun)(const vector<Point>& points, bool graphics), int testSize) {
+vector<long long> analyze(const Point& p1, const Point& p2, long long (*fun)(vector<Point>& points, bool graphics), int testSize) {
     vector<long long> heuristics;
 
     for(int i = 1; i <= testSize; i++) {
